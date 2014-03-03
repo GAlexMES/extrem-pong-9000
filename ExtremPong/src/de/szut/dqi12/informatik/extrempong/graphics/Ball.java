@@ -42,13 +42,16 @@ public class Ball extends JComponent implements ActionListener {
 
 	}
 
-	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		Ellipse2D.Double ellipse1 = new Ellipse2D.Double(position.getX(),
-				position.getY(), position.getWidth(), position.getHeight());
-		g2.fill(ellipse1);
-
+	public void start() {
 		tm.start();
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 	public void richtungAendern() {
@@ -83,8 +86,6 @@ public class Ball extends JComponent implements ActionListener {
 		}
 		position.setX(x);
 		position.setY(y);
-		repaint();
-
 	}
 	
 	public void changeDirection(int cood){

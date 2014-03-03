@@ -22,9 +22,4 @@ public class MainFrame extends JFrame {
 		setContentPane(new Field());
 	}
 	
-	public static void main(String[] args) {
-		MainFrame.getInstance().getContentPane().add(new Ball());
-		MainFrame.getInstance().getContentPane().add(new Ball());
-		MainFrame.getInstance().getContentPane().add(new Player(435.0, 30.0));
-	}
 }

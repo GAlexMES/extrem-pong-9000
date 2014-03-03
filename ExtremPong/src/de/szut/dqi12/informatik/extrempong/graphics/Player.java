@@ -53,13 +53,6 @@ public class Player extends JComponent {
 		position.setWidth(150);
 	}
 	
-	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		Rectangle2D.Double rec = new Rectangle2D.Double(position.getX(), position.getY(), 
-				position.getHeight(), position.getWidth());
-		g2.fill(rec);
-	}
-	
 	public void move(String direction){
 		
 	}
