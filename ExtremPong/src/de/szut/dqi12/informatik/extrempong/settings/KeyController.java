@@ -16,7 +16,4 @@ public class KeyController {
 	public void setRightKey(String rightKey) {
 		this.rightKey = rightKey;
 	}
-	
-	
-
 }

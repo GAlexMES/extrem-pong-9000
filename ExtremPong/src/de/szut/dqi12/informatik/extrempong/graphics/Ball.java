@@ -9,13 +9,11 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
-import de.szut.dqi12.informatik.extrempong.main.Controller;
 import de.szut.dqi12.informatik.extrempong.settings.Colors;
 import de.szut.dqi12.informatik.extrempong.settings.Position;
 
 public class Ball extends JComponent implements ActionListener {
 
-	private Controller controller = Controller.getInstance();
 	private Position position = new Position();
 	private Colors color = new Colors();
 	private int speed = 1;
@@ -35,7 +33,7 @@ public class Ball extends JComponent implements ActionListener {
 	public static final int CHANGE_X = 0;
 	public static final int CHANGE_Y = 1;
 
-	public Ball(Field field) {
+	public Ball() {
 		frameSize();
 		position.setHeight(50);
 		position.setWidth(50);
@@ -100,9 +98,9 @@ public class Ball extends JComponent implements ActionListener {
 	}
 
 	private void frameSize() {
-		windowWidth = (int) controller.getField().getJFrame().getContentPane()
+		windowWidth = (int) MainFrame.getInstance().getContentPane()
 				.getSize().getWidth();
-		windowHeight = (int) controller.getField().getJFrame().getContentPane()
+		windowHeight = (int) MainFrame.getInstance().getContentPane()
 				.getSize().getHeight();
 	}
 

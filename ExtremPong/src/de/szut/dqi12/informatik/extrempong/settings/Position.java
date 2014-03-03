@@ -7,6 +7,7 @@ public class Position {
 	private int height;
 	private int width;
 	private int direction;
+	
 	public Double getX() {
 		return x;
 	}
