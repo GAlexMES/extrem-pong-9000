@@ -1,14 +1,5 @@
 package de.szut.dqi12.informatik.extrempong.graphics;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-
-import javax.swing.JComponent;
-import javax.swing.Timer;
-
 import de.szut.dqi12.informatik.extrempong.settings.Colors;
 import de.szut.dqi12.informatik.extrempong.settings.Position;
 
@@ -17,9 +8,8 @@ public class Ball {
 	private Position position = new Position();
 	private Colors color = new Colors();
 	
-	private Double x = 0.0;
-	private Double y = 0.0;
-	private Double yelx = 1.0;
+
+	private Double vely = 1.0;
 	private Double velx = 2.0;
 	private int windowWidth;
 	private int windowHeight;
@@ -50,30 +40,28 @@ public class Ball {
 	public void move() {
 		frameSize();
 		if (horizontalDirection) {
-			y = y + yelx;
-			if (y >= (windowHeight - position.getHeight())) {
+			position.setY(position.getY()+vely);
+			if (position.getY() >= (windowHeight - position.getHeight())) {
 				horizontalDirection = false;
 			}
 		} else {
-			y = y - yelx;
-			if (y <= 0) {
+			position.setY(position.getY()-vely);
+			if (position.getY() <= 0) {
 				horizontalDirection = true;
 			}
 		}
 
 		if (verticalDirection) {
-			x = x + velx;
-			if (x >= (windowWidth - position.getWidth())) {
+			position.setX(position.getX()+velx);
+			if (position.getX() >= (windowWidth - position.getWidth())) {
 				verticalDirection = false;
 			}
 		} else {
-			x = x - velx;
-			if (x <= 0) {
+			position.setX(position.getX()-velx);
+			if (position.getX() <= 0) {
 				verticalDirection = true;
 			}
 		}
-		position.setX(x);
-		position.setY(y);
 	}
 	
 	public void changeDirection(int cood){
