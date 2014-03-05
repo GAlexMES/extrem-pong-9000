@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
 	public void setImg(BufferedImage img) {
 		this.img = img;
 		repaint();
+		
 	}
 	
 	public MainFrame(){
@@ -43,8 +44,7 @@ public class MainFrame extends JFrame {
 	
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
-		g.drawImage(img, 0, 0, 300, 300, new ImageObserver() {
+		g.drawImage(img, 16, 38, 1000, 1000, new ImageObserver() {
 			
 			@Override
 			public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,

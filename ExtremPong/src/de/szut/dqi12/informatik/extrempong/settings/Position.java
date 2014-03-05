@@ -2,22 +2,22 @@ package de.szut.dqi12.informatik.extrempong.settings;
 
 public class Position {
 	
-	private Double x;
-	private Double y;
+	private int x;
+	private int y;
 	private int height;
 	private int width;
 	private int direction;
 	
-	public Double getX() {
+	public int getX() {
 		return x;
 	}
-	public void setX(Double x) {
+	public void setX(int x) {
 		this.x = x;
 	}
-	public Double getY() {
+	public int getY() {
 		return y;
 	}
-	public void setY(Double y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 	public int getHeight() {

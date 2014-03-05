@@ -1,16 +1,16 @@
 package de.szut.dqi12.informatik.extrempong.graphics;
 
-import de.szut.dqi12.informatik.extrempong.settings.Colors;
+import java.awt.Color;
+
 import de.szut.dqi12.informatik.extrempong.settings.Position;
 
 public class Ball {
 
 	private Position position = new Position();
-	private Colors color = new Colors();
+	private Color color;
 	
-
-	private Double vely = 1.0;
-	private Double velx = 2.0;
+	private int vely = 1;
+	private int velx = 2;
 	private int windowWidth;
 	private int windowHeight;
 
@@ -20,13 +20,21 @@ public class Ball {
 	public static final int CHANGE_X = 0;
 	public static final int CHANGE_Y = 1;
 
-	public Ball() {
+	public Ball(Color c) {
 		frameSize();
 		position.setHeight(50);
 		position.setWidth(50);
-		position.setX(100.0);
-		position.setY(100.0);
+		position.setX(100);
+		position.setY(100);
+		color=c;
+	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public Position getPosition() {

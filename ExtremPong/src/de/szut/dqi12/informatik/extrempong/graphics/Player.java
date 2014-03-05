@@ -1,24 +1,22 @@
 package de.szut.dqi12.informatik.extrempong.graphics;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Color;
 
 import javax.swing.JComponent;
 
-import de.szut.dqi12.informatik.extrempong.settings.Colors;
 import de.szut.dqi12.informatik.extrempong.settings.KeyController;
 import de.szut.dqi12.informatik.extrempong.settings.Position;
 
 public class Player extends JComponent {
 	
+	private static final long serialVersionUID = 4693508921747774837L;
+
 	public static final int DEPTH = 35;
 	
 	private Position position;
 	private String name;
 	private KeyController keys;
-	private Colors color;
+	private Color color;
 	public Position getPosition() {
 		return position;
 	}
@@ -37,15 +35,15 @@ public class Player extends JComponent {
 	public void setKeys(KeyController keys) {
 		this.keys = keys;
 	}
-	public Colors getColor() {
+	public Color getColor() {
 		return color;
 	}
-	public void setColor(Colors color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 	
-	public Player(Double x, Double y){
-		
+	public Player(int x, int y, Color c){
+		this.color = c;
 		position = new Position();
 		position.setX(x);
 		position.setY(y);

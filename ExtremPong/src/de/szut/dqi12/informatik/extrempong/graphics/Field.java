@@ -1,47 +1,63 @@
 package de.szut.dqi12.informatik.extrempong.graphics;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 
 public class Field implements Runnable {
 	
 	public ArrayList<Ball> balls;
 	public ArrayList<Player> players;
 	
-	private BufferedImage frame =new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage frame = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);
+	
 	
 	public Field(){
 		balls = new ArrayList<Ball>();
 		players = new ArrayList<Player>();
 	}
 	
+	public void addBall(Ball b){
+		balls.add(b);
+	}
+	
+	public void addPlayer(Player p){
+		players.add(p);
+	}
+	
 	@Override
 	public void run(){
 		while(true){
-			Graphics2D g2 = (Graphics2D) frame.getGraphics();
+			Graphics g2= (Graphics) frame.getGraphics();
+			g2.setColor(Color.WHITE);
+			g2.fillRect(0, 0, 1000, 1000);
 			for(Ball ball: balls){
-				Ellipse2D.Double ballell = new Ellipse2D.Double(ball.getPosition().getX(),ball.getPosition().getY(),
+				g2.setColor(ball.getColor());
+				ball.move();
+				g2.fillOval(ball.getPosition().getX(),ball.getPosition().getY(),
 						ball.getPosition().getWidth(), ball.getPosition().getHeight());
-				g2.fill(ballell);
 			}
 			
 			for(Player player: players){
-				Rectangle2D.Double rec = new Rectangle2D.Double(player.getPosition().getX(), player.getPosition().getY(), 
+				g2.setColor(player.getColor());
+				g2.fillRect(player.getPosition().getX(), player.getPosition().getY(), 
 						player.getPosition().getHeight(), player.getPosition().getWidth());
-				g2.fill(rec);
 			}
+			
+			//Warte Xms und drehe secondFrame um
+			try{
+				Thread.sleep(20);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			//entscheided welches frame gerendert wird.
 			MainFrame.getInstance().setImg(frame);
+			
 		}
 	}
 	
-	public void addBall(Ball ball){
-		balls.add(ball);
-	}
 	
-	public void addPlayer(Player player){
-		players.add(player);
-	}
 }
