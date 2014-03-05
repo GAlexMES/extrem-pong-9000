@@ -12,13 +12,10 @@ import javax.swing.Timer;
 import de.szut.dqi12.informatik.extrempong.settings.Colors;
 import de.szut.dqi12.informatik.extrempong.settings.Position;
 
-public class Ball extends JComponent implements ActionListener {
+public class Ball {
 
 	private Position position = new Position();
 	private Colors color = new Colors();
-	private int speed = 1;
-
-	private Timer tm = new Timer(speed, this);
 	
 	private Double x = 0.0;
 	private Double y = 0.0;
@@ -37,13 +34,9 @@ public class Ball extends JComponent implements ActionListener {
 		frameSize();
 		position.setHeight(50);
 		position.setWidth(50);
-		position.setX(0.0);
-		position.setY(0.0);
+		position.setX(100.0);
+		position.setY(100.0);
 
-	}
-
-	public void start() {
-		tm.start();
 	}
 
 	public Position getPosition() {
@@ -54,12 +47,7 @@ public class Ball extends JComponent implements ActionListener {
 		this.position = position;
 	}
 
-	public void richtungAendern() {
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void move() {
 		frameSize();
 		if (horizontalDirection) {
 			y = y + yelx;
