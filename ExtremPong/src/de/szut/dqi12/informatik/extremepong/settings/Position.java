@@ -1,4 +1,4 @@
-package de.szut.dqi12.informatik.extrempong.settings;
+package de.szut.dqi12.informatik.extremepong.settings;
 
 public class Position {
 	
@@ -8,7 +8,7 @@ public class Position {
 	private int width;
 	private int direction;
 	
-	public int getX() {
+	public int getX(){
 		return x;
 	}
 	public void setX(int x) {
@@ -38,7 +38,4 @@ public class Position {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
-	
-	
-
 }

@@ -1,8 +1,8 @@
-package de.szut.dqi12.informatik.extrempong.graphics;
+package de.szut.dqi12.informatik.extremepong.graphics;
 
 import java.awt.Color;
 
-import de.szut.dqi12.informatik.extrempong.settings.Position;
+import de.szut.dqi12.informatik.extremepong.settings.Position;
 
 public class Ball {
 
@@ -28,7 +28,7 @@ public class Ball {
 		position.setY(100);
 		color=c;
 	}
-
+	
 	public Color getColor() {
 		return color;
 	}

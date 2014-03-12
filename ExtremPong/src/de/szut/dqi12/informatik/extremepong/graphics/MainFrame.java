@@ -1,4 +1,4 @@
-package de.szut.dqi12.informatik.extrempong.graphics;
+package de.szut.dqi12.informatik.extremepong.graphics;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,6 +7,8 @@ import java.awt.image.ImageObserver;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import de.szut.dqi12.informatik.extremepong.listener.PlayerKeyListener;
 
 public class MainFrame extends JFrame {
 	
@@ -34,17 +36,23 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame(){
 		instance = this;
-		
-		setSize(1000+16, 1000+38);
-		setTitle("Extrem Pong 9000");
+	
+		setSize(1000, 1000);
+		setTitle("Extreme Pong 9000");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setContentPane(gamePanel);
+		setResizable(false);
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(img, 16, 38, 1000, 1000, new ImageObserver() {
+		int height = (int)(MainFrame.getInstance().getContentPane().getSize().getHeight());
+		int width = (int)(MainFrame.getInstance().getContentPane().getSize().getWidth());
+		int heightOffset = MainFrame.getInstance().getHeight();
+		int widthOffset = MainFrame.getInstance().getWidth();
+		
+		g.drawImage(img, widthOffset-width, heightOffset-height, 1000, 1000, new ImageObserver() {
 			
 			@Override
 			public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
