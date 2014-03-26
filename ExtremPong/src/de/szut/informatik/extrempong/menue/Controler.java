@@ -23,8 +23,8 @@ public class Controler {
 			this.returnValues();
 			view.setVisible(false);
 		} else {
-			Fehlermeldung fehlerView = Fehlermeldung.getInstance();
-			fehlerView.setVisible(true);
+			Fehlermeldung.getInstance().move();
+			Fehlermeldung.getInstance().setVisible(true);
 		}
 	}
 
@@ -61,10 +61,11 @@ public class Controler {
 
 		}
 
+		boolean powerups;
 		if (view.getPufalse().isSelected()) {
-			boolean powerups = false;
+			powerups = false;
 		} else {
-			boolean powerups = true;
+			powerups = true;
 		}
 		// TILLSPROGRAMM.STARTEN(this.spieler, powerups);
 	}

@@ -8,10 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+
+import de.szut.dqi12.informatik.extremepong.graphics.Screen;
 
 public class View extends JFrame {
 
+	private static final long serialVersionUID = 4021128003943864237L;
 	private JLabel[] namenLabels = new JLabel[4];
 	private JLabel[] tastenLabels = new JLabel[4];
 	private JLabel[] spielerLabels = new JLabel[4];
@@ -74,11 +78,16 @@ public class View extends JFrame {
 	public View() {
 
 		this.setBounds(
-				Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 250,
-				Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 250,
+				Screen.getWidth() / 2 - 250,
+				Screen.getHeight() / 2 - 250,
 				500, 500);
 		this.setLayout(null);
 
+		setResizable(false);
+		setUndecorated(true);
+		getRootPane().setWindowDecorationStyle(JRootPane.ERROR_DIALOG);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		for (int i = 0; i < 4; i++) {
 			this.namenLabels[i] = new JLabel();
 			this.tastenLabels[i] = new JLabel();
@@ -127,7 +136,7 @@ public class View extends JFrame {
 		abschicken.addActionListener(listener);
 
 		this.add(menueText);
-		menueText.setText("Wilkommen zu Pong Extreme 9000");
+		menueText.setText("Wilkommen zu Extreme Pong 9000");
 		menueText.setFont(new Font("Arial", 1, 20));
 		menueText.setBounds(75, 30, 500, 30);
 
@@ -137,11 +146,4 @@ public class View extends JFrame {
 		this.setVisible(true);
 
 	}
-
-	public static void main(String[] args) {
-
-		View view = new View();
-
-	}
-
 }

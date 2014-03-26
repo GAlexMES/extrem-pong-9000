@@ -8,8 +8,6 @@ import java.awt.image.ImageObserver;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.szut.dqi12.informatik.extremepong.listener.PlayerKeyListener;
-
 public class MainFrame extends JFrame {
 	
 	private static final long serialVersionUID = 7240759665414068037L;
