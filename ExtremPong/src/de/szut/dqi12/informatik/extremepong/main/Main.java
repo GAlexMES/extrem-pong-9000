@@ -1,28 +1,21 @@
 package de.szut.dqi12.informatik.extremepong.main;
 
-import java.awt.Color;
-
-import de.szut.dqi12.informatik.extremepong.graphics.Ball;
-import de.szut.dqi12.informatik.extremepong.graphics.Field;
 import de.szut.dqi12.informatik.extremepong.graphics.MainFrame;
-import de.szut.dqi12.informatik.extremepong.graphics.Player;
-import de.szut.dqi12.informatik.extremepong.listener.PlayerKeyListener;
-import de.szut.dqi12.informatik.extremepong.settings.Direction;
-import de.szut.dqi12.informatik.extremepong.settings.KeyController;
+import de.szut.dqi12.informatik.extremepong.threads.RenderThread;
 
 
 public class Main {
 
 	public static void main(String[] args) {
-		Field f = Field.getInstance();
+		RenderThread f = RenderThread.getInstance();
 		
-		f.addBall(new Ball(Color.BLACK));
-		
-		f.addPlayer(new Player(Color.GREEN, Direction.UP, new KeyController('a', 'd')));
-		f.addPlayer(new Player(Color.GREEN, Direction.DOWN, new KeyController('g', 'h')));
-		f.addPlayer(new Player(Color.GREEN, Direction.LEFT, new KeyController('j', 'k')));
-		f.addPlayer(new Player(Color.GREEN, Direction.RIGHT, new KeyController('l', 'm')));
-		
+//		f.addBall(new BallObject(Color.BLACK));
+//		
+//		f.addPlayer(new PlayerObject(Color.GREEN, Direction.UP, new Keys('a', 'd')));
+//		f.addPlayer(new PlayerObject(Color.GREEN, Direction.DOWN, new Keys('g', 'h'), null, null, null));
+//		f.addPlayer(new PlayerObject(Color.GREEN, Direction.LEFT, new Keys('j', 'k')));
+//		f.addPlayer(new PlayerObject(Color.GREEN, Direction.RIGHT, new Keys('l', 'm')));
+//		
 		Thread t = new Thread(f);
 		MainFrame.getInstance();
 		t.start();

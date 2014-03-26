@@ -2,43 +2,25 @@ package de.szut.dqi12.informatik.extremepong.listener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import de.szut.dqi12.informatik.extremepong.graphics.Field;
-import de.szut.dqi12.informatik.extremepong.graphics.Player;
+import java.util.ArrayList;
 
 public class PlayerKeyListener implements KeyListener {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	public static ArrayList<Character> buttonsPressed = new ArrayList<Character>();
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyChar());
-		for(Player player: Field.getInstance().getPlayers()){
-			if(player.getKeys().getLeftKey() == e.getKeyChar()){
-				player.move(e.getKeyChar());
-			}else if(player.getKeys().getRightKey() == e.getKeyChar()){
-				player.move(e.getKeyChar());
-			}
+		if(!buttonsPressed.contains((Object)e.getKeyChar())){
+			buttonsPressed.add((Character)e.getKeyChar());
 		}
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		buttonsPressed.remove((Object)e.getKeyChar());
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-
 }

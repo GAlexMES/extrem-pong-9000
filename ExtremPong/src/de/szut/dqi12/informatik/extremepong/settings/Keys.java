@@ -1,11 +1,11 @@
 package de.szut.dqi12.informatik.extremepong.settings;
 
-public class KeyController {
+public class Keys {
 	
 	private char leftKey;
 	private char rightKey;
 	
-	public KeyController(char leftKey, char rightKey){
+	public Keys(char leftKey, char rightKey){
 		this.leftKey = leftKey;
 		this.rightKey = rightKey;
 	}
