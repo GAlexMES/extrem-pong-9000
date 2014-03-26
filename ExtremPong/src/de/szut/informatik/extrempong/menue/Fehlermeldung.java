@@ -25,7 +25,7 @@ public class Fehlermeldung extends JFrame {
 		this.setBounds(View.getInstance().getBounds().x
 				+ View.getInstance().getBounds().width / 2 - 100, View
 				.getInstance().getBounds().y
-				+ View.getInstance().getBounds().height / 2 - 100, 1000, 1000);
+				+ View.getInstance().getBounds().height / 2 - 100, 200, 200);
 		this.setLayout(null);
 		this.fehler.setText(text);
 		this.add(this.fehler);
@@ -37,7 +37,7 @@ public class Fehlermeldung extends JFrame {
 		this.setBounds(View.getInstance().getBounds().x
 				+ View.getInstance().getBounds().width / 2 - 100, View
 				.getInstance().getBounds().y
-				+ View.getInstance().getBounds().height / 2 - 100, 1000, 1000);
+				+ View.getInstance().getBounds().height / 2 - 100, 200, 200);
 	}
 
 }
