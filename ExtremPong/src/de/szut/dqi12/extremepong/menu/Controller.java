@@ -1,14 +1,16 @@
-package de.szut.informatik.extrempong.menue;
+package de.szut.dqi12.extremepong.menu;
 
-public class Controler {
+import de.szut.dqi12.extremepong.PongMainRender;
+
+public class Controller {
 
 	private Spieler[] spieler = new Spieler[4];
-	private static Controler instance = null;
+	private static Controller instance = null;
 	private View view;
 
-	public static Controler getInstance() {
+	public static Controller getInstance() {
 		if (instance == null) {
-			instance = new Controler();
+			instance = new Controller();
 		}
 		return instance;
 	}
@@ -17,11 +19,18 @@ public class Controler {
 		this.view.setPunkte(winner);
 		view.setVisible(true);
 	}
+	
+	public Spieler[] getSpieler(){
+		return spieler;
+	}
 
 	public void startGame(View view) {
 		if (this.checkInput(view)) {
 			this.returnValues();
 			view.setVisible(false);
+
+			//Pong (lwjgl)
+			new PongMainRender();
 		} else {
 			Fehlermeldung.getInstance().move();
 			Fehlermeldung.getInstance().setVisible(true);
@@ -33,7 +42,7 @@ public class Controler {
 		for (int i = 0; i < view.getTastenFelder().length; i++) {
 			if (view.getTastenFelder()[i].getText().length() != 1) {
 				return false;
-			}// noch auf gleichheit pruefen
+			}
 
 		}
 
@@ -56,18 +65,9 @@ public class Controler {
 			this.spieler[i].setName(view.getSpielerFelder()[i].getText());
 			this.spieler[i].setTaste1(view.getTastenFelder()[i * 2].getText()
 					.toCharArray()[0]);
-			this.spieler[i].setTaste1(view.getTastenFelder()[i * 2 + 1]
+			this.spieler[i].setTaste2(view.getTastenFelder()[i * 2 + 1]
 					.getText().toCharArray()[0]);
 
 		}
-
-		boolean powerups;
-		if (view.getPufalse().isSelected()) {
-			powerups = false;
-		} else {
-			powerups = true;
-		}
-		// TILLSPROGRAMM.STARTEN(this.spieler, powerups);
 	}
-
 }

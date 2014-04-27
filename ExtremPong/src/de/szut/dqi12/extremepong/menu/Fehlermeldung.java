@@ -1,9 +1,5 @@
-package de.szut.informatik.extrempong.menue;
+package de.szut.dqi12.extremepong.menu;
 
-import java.io.File;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -15,7 +11,7 @@ public class Fehlermeldung extends JFrame {
 
 	public static Fehlermeldung getInstance() {
 		if (instance == null) {
-			instance = new Fehlermeldung("Richtige Eingabe!");
+			instance = new Fehlermeldung("Falsche Eingabe!!!");
 		}
 		return instance;
 	}

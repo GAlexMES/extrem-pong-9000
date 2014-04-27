@@ -1,4 +1,4 @@
-package de.szut.dqi12.informatik.extremepong.settings;
+package de.szut.dqi12.extremepong.util;
 
 public class Keys {
 	

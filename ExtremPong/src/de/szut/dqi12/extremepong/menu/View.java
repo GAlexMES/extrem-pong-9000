@@ -1,4 +1,4 @@
-package de.szut.informatik.extrempong.menue;
+package de.szut.dqi12.extremepong.menu;
 
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -10,8 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
-
-import de.szut.dqi12.informatik.extremepong.graphics.Screen;
 
 public class View extends JFrame {
 
@@ -74,12 +72,16 @@ public class View extends JFrame {
 		return instance;
 	}
 
+	public void SelbstZerstoerungsKnopf(){
+		System.exit(-1);
+	}
+	
 	// namen, tasten powerups ja,nein
-	public View() {
+	private View() {
 
 		this.setBounds(
-				Screen.getWidth() / 2 - 250,
-				Screen.getHeight() / 2 - 250,
+				Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 250,
+				Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 250,
 				500, 500);
 		this.setLayout(null);
 

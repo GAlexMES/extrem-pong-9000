@@ -1,4 +1,4 @@
-package de.szut.informatik.extrempong.menue;
+package de.szut.dqi12.extremepong.menu;
 
 public class Spieler {
 
