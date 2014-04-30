@@ -43,11 +43,12 @@ public class PongMainRender {
 	public static PongMainRender getInstance(){
 		if(instance == null){
 			instance = new PongMainRender();
+			instance.renderShit();
 		}
 		return instance;
 	}
 	
-	private PongMainRender() {
+	public void renderShit() {
 		// Display Erstellung
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
@@ -94,6 +95,8 @@ public class PongMainRender {
 			}
 		}
 		
+		boolean newBall = false;
+		
 		// Render Schleife, solange das Display nicht geschlossen werden soll
 		while (!Display.isCloseRequested()) {
 
@@ -109,7 +112,10 @@ public class PongMainRender {
 				}
 				
 				for(AbstractPowerup p: powerups){
-					p.hit(b);
+					if(p.hit(b)){
+						newBall = true;
+					}
+					
 				}
 				
 				//Wenn der Ball eine Kante trifft, wird der jewailige Player
@@ -127,6 +133,10 @@ public class PongMainRender {
 					b.changeDir(Direction.DOWN);
 					players.get(2).setIngame(false);
 				}
+			}
+			if(newBall){
+				PongMainRender.getInstance().newBall((int)Math.random()*5);
+				newBall = false;
 			}
 			
 			//Player Render
@@ -146,10 +156,10 @@ public class PongMainRender {
 			
 			//Powerups Render
 			if(View.getInstance().getPutrue().isSelected()){
-				if((int)Math.random()*10 == 5){
+				
 					if(powerups.size() <= 3){
 						powerups.add(new NewBallPowerup(WIDTH/2, HEIGHT/2, 10, 10));
-					}
+					
 				}
 				
 				for(AbstractPowerup p: powerups){

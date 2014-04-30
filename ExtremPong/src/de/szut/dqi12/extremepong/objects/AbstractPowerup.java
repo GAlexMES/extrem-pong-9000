@@ -11,6 +11,7 @@ public abstract class AbstractPowerup implements Powerup {
 	
 	public AbstractPowerup(int x, int y, int width, int height){
 		bounds = new Bounds(x,y,width,height);
+		hitbox = new Rectangle();
 		recalcHitbox();
 	}
 	

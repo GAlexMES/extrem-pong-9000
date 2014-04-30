@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2i;
-import de.szut.dqi12.extremepong.PongMainRender;
 
 public class NewBallPowerup extends AbstractPowerup {
 
@@ -13,10 +12,11 @@ public class NewBallPowerup extends AbstractPowerup {
 	}
 
 	@Override
-	public void hit(Ball b) {
+	public boolean hit(Ball b) {
 		if(hitbox.intersects(b.hitbox)){
-			PongMainRender.getInstance().newBall((int)Math.random()*5);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
