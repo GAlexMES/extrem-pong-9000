@@ -28,8 +28,8 @@ public class View extends JFrame {
 	private Listener listener = new Listener(this);
 
 	private ButtonGroup buttonGroup = new ButtonGroup();
-	private JRadioButton putrue = new JRadioButton();
-	private JRadioButton pufalse = new JRadioButton();
+	private JRadioButton powerupsein = new JRadioButton();
+	private JRadioButton powerupsaus = new JRadioButton();
 	private int[] punkte = new int[4];
 
 	public void setPunkte(int winner) {
@@ -55,11 +55,11 @@ public class View extends JFrame {
 	}
 
 	public JRadioButton getPutrue() {
-		return putrue;
+		return powerupsein;
 	}
 
 	public JRadioButton getPufalse() {
-		return pufalse;
+		return powerupsaus;
 	}
 
 	private static View instance = null;
@@ -72,10 +72,10 @@ public class View extends JFrame {
 		return instance;
 	}
 
-	public void SelbstZerstoerungsKnopf(){
+	public void SelbstZerstoerungsKnopf() {
 		System.exit(-1);
 	}
-	
+
 	// namen, tasten powerups ja,nein
 	private View() {
 
@@ -89,7 +89,9 @@ public class View extends JFrame {
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.ERROR_DIALOG);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
+		// es werden Arrays von Komponenten erzeugt und der View hinzugefuegt
+		// die Komponenten werden in in gleichen abstaenden angeordnet
 		for (int i = 0; i < 4; i++) {
 			this.namenLabels[i] = new JLabel();
 			this.tastenLabels[i] = new JLabel();
@@ -107,7 +109,7 @@ public class View extends JFrame {
 			this.add(spielerFelder[i]);
 			spielerFelder[i].setBounds(150, 100 + i * 70, 100, 30);
 		}
-
+		// es werden Textfelder erzeugt und der View hinzugefuegt
 		for (int i = 0; i < 8; i++) {
 			this.tastenFelder[i] = new JTextField();
 
@@ -119,22 +121,25 @@ public class View extends JFrame {
 				tastenFelder[i].setBounds(360, 100 + i / 2 * 70, 30, 30);
 			}
 		}
+		// Radiobuttons werden erstellt, einer Radiobuttongroup hinzugefuegt und
+		// der View hinzugefuegt
+		this.add(powerupsaus);
+		powerupsaus.setText("nein");
+		powerupsaus.setBounds(250, 380, 60, 30);
 
-		this.add(pufalse);
-		pufalse.setText("nein");
-		pufalse.setBounds(250, 380, 60, 30);
-
-		this.add(putrue);
-		putrue.setText("ja");
-		putrue.setBounds(200, 380, 50, 30);
+		this.add(powerupsein);
+		powerupsein.setText("ja");
+		powerupsein.setBounds(200, 380, 50, 30);
 
 		this.add(powerups);
 		powerups.setText("Powerups?");
 		powerups.setBounds(100, 380, 100, 30);
 
+		// Ein Button wird erstellt und der View hinzugefuegt.
 		this.add(abschicken);
 		abschicken.setText("Abschicken");
 		abschicken.setBounds(330, 400, 120, 30);
+		// Dem Button wird einem ActionListener hinzugefuegt.
 		abschicken.addActionListener(listener);
 
 		this.add(menueText);
@@ -142,9 +147,10 @@ public class View extends JFrame {
 		menueText.setFont(new Font("Arial", 1, 20));
 		menueText.setBounds(75, 30, 500, 30);
 
-		buttonGroup.add(pufalse);
-		buttonGroup.add(putrue);
+		buttonGroup.add(powerupsaus);
+		buttonGroup.add(powerupsein);
 
+		// Die Oberflaeche wird sichtbar gemacht.
 		this.setVisible(true);
 
 	}
