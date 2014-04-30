@@ -16,20 +16,24 @@ public class Controller {
 	}
 
 	public void SpielEnde(int winner) {
+		// der View wird den Gewinner uebergeben und sie Sichtbar gemacht.
 		this.view.setPunkte(winner);
 		view.setVisible(true);
 	}
-	
-	public Spieler[] getSpieler(){
+
+	public Spieler[] getSpieler() {
+		// Getter fuer Spieler.
 		return spieler;
 	}
 
 	public void startGame(View view) {
+		// wennn das Menue richtig benutzt wurde wird ein Objekt von
+		// PongMainRender erzeugt und die View unsichtbar gemacht.
 		if (this.checkInput(view)) {
 			this.returnValues();
 			view.setVisible(false);
 
-			//Pong (lwjgl)
+			// Pong (lwjgl)
 			new PongMainRender();
 		} else {
 			Fehlermeldung.getInstance().move();
@@ -38,6 +42,8 @@ public class Controller {
 	}
 
 	private boolean checkInput(View view) {
+		// Die eingaben des Useres werden auf Vollstendigkeit ueberprueft.
+		// Ist die Eingabe richtig, wird ein true zurueckgegeben, sonst ein false.
 		this.view = view;
 		for (int i = 0; i < view.getTastenFelder().length; i++) {
 			if (view.getTastenFelder()[i].getText().length() != 1) {
@@ -60,6 +66,7 @@ public class Controller {
 	}
 
 	private void returnValues() {
+		// Dem Memberarray von Spielern werden Werte uebegeben.
 		for (int i = 0; i < 4; i++) {
 			this.spieler[i] = new Spieler();
 			this.spieler[i].setName(view.getSpielerFelder()[i].getText());
