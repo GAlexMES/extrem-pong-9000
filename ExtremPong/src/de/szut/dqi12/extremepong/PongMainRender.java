@@ -1,7 +1,6 @@
 package de.szut.dqi12.extremepong;
 
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import org.lwjgl.input.*;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
@@ -10,31 +9,48 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import de.szut.dqi12.extremepong.menu.Spieler;
-import de.szut.dqi12.extremepong.menu.View;
-import de.szut.dqi12.extremepong.objects.Ball;
 import de.szut.dqi12.extremepong.menu.Controller;
+import de.szut.dqi12.extremepong.menu.View;
+import de.szut.dqi12.extremepong.objects.AbstractPowerup;
+import de.szut.dqi12.extremepong.objects.Ball;
+import de.szut.dqi12.extremepong.objects.NewBallPowerup;
 import de.szut.dqi12.extremepong.objects.Player;
 import de.szut.dqi12.extremepong.util.Direction;
 
 public class PongMainRender {
-	public static String TITLE = "Extreme Pong";
-	public static ArrayList<Ball> balls = new ArrayList<Ball>();
-	public static ArrayList<Player> players = new ArrayList<Player>();
-	public static final int fieldWidth = 600;
-	public static final int fieldHeight = 600;
+	//Konstanten
+	public static final String TITLE = "Extreme Pong";
+	public static final int WIDTH = 600;
+	public static final int HEIGHT = 600;
+	
+	//Objektlisten
+	public ArrayList<Ball> balls = new ArrayList<Ball>();
+	public ArrayList<Player> players = new ArrayList<Player>();
+	public ArrayList<AbstractPowerup> powerups = new ArrayList<AbstractPowerup>();
+	
+	public static PongMainRender instance = null;
+	
+	//Main
 	public static void main(String[] args) {
 		View.getInstance();
 	}
 
-	public PongMainRender() {
+	public static PongMainRender getInstance(){
+		if(instance == null){
+			instance = new PongMainRender();
+		}
+		return instance;
+	}
+	
+	private PongMainRender() {
 		// Display Erstellung
 		try {
-			Display.setDisplayMode(new DisplayMode(fieldWidth, fieldHeight));
+			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle(TITLE);
 			Display.create();
 		} catch (LWJGLException e) {
@@ -46,20 +62,23 @@ public class PongMainRender {
 		// OpenGL Initialization Code
 		glMatrixMode(GL11.GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, fieldWidth, fieldHeight, 0, 1, -1);
+		//Ortho gibt an wie das Koordinatensystem aufgebaut ist,
+		//in unserem Fall ist TOP = 0 und BOTTOM = HEIGHT und LEFT = 0 und RIGHT = WIDTH
+		//  0
+		// 0 WIDTH
+		//  HEIGHT
+		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 
-		balls.add(new Ball(fieldWidth/2, fieldHeight/2, 4, 4));
+		// Der Ball der von Anfang an da ist
+		balls.add(new Ball(WIDTH/2, HEIGHT/2, 4, 4));
 
-		int count = 0;
-		for(Spieler spieler: Controller.getInstance().getSpieler()){
+		
+		for(int i = 0;i <= 3;i++){
+			char keyleft = Controller.getInstance().getSpieler()[i].getTaste1();
+			char keyright = Controller.getInstance().getSpieler()[i].getTaste2();
 			
-			char keyleft = spieler.getTaste1();
-			char keyright = spieler.getTaste2();
-			
-			System.out.println(keyleft + " " + keyright);
-			
-			switch(count){
+			switch(i){
 			case 0:
 				players.add(new Player(keyleft, keyright, Direction.UP));
 				break;
@@ -73,14 +92,12 @@ public class PongMainRender {
 				players.add(new Player(keyleft, keyright, Direction.LEFT));
 				break;
 			}
-			
-			
-			count++;
 		}
 		
-		// Render loop
+		// Render Schleife, solange das Display nicht geschlossen werden soll
 		while (!Display.isCloseRequested()) {
 
+			//Ball Render
 			for (Ball b: balls) {
 				b.render();
 				b.move();
@@ -91,7 +108,13 @@ public class PongMainRender {
 					}
 				}
 				
-				if(b.getBounds().getX()+b.getBounds().getWidth() > fieldWidth){
+				for(AbstractPowerup p: powerups){
+					p.hit(b);
+				}
+				
+				//Wenn der Ball eine Kante trifft, wird der jewailige Player
+				//aus dem Game gekickt.
+				if(b.getBounds().getX()+b.getBounds().getWidth() > WIDTH){
 					b.changeDir(Direction.RIGHT);
 					players.get(1).setIngame(false);
 				}else if(b.getBounds().getY()-b.getBounds().getHeight() < 0){
@@ -100,12 +123,13 @@ public class PongMainRender {
 				}else if(b.getBounds().getX()-b.getBounds().getWidth() < 0){
 					b.changeDir(Direction.LEFT);
 					players.get(3).setIngame(false);
-				}else if(b.getBounds().getY()+b.getBounds().getHeight() > fieldHeight){
+				}else if(b.getBounds().getY()+b.getBounds().getHeight() > HEIGHT){
 					b.changeDir(Direction.DOWN);
 					players.get(2).setIngame(false);
 				}
 			}
 			
+			//Player Render
 			for(Player p: players){
 				p.render();
 				int keyleft = Keyboard.getKeyIndex(Character.toString(p.getKeys().getLeftKey()));
@@ -119,12 +143,31 @@ public class PongMainRender {
 					p.move(p.getKeys().getRightKey());
 				}
 			}
-	
+			
+			//Powerups Render
+			if(View.getInstance().getPutrue().isSelected()){
+				if((int)Math.random()*10 == 5){
+					if(powerups.size() <= 3){
+						powerups.add(new NewBallPowerup(WIDTH/2, HEIGHT/2, 10, 10));
+					}
+				}
+				
+				for(AbstractPowerup p: powerups){
+					p.render();
+				}
+			}
+			
 			Display.update();
 			Display.sync(60);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 		Display.destroy();
 		View.getInstance().SelbstZerstoerungsKnopf();
+	}
+	
+	public void newBall(int size){
+		if(balls.size() <= 5){
+			balls.add(new Ball(WIDTH/2, HEIGHT/2, size, size));
+		}
 	}
 }

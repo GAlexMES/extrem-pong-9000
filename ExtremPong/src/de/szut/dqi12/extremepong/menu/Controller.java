@@ -34,7 +34,7 @@ public class Controller {
 			view.setVisible(false);
 
 			// Pong (lwjgl)
-			new PongMainRender();
+			PongMainRender.getInstance();
 		} else {
 			Fehlermeldung.getInstance().move();
 			Fehlermeldung.getInstance().setVisible(true);

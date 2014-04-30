@@ -63,18 +63,20 @@ public class Player {
 	}
 
 	public void move(char c) {
+		// Checks if the Player is still inGame
 		if (isInGame) {
 			int y = this.bounds.getY();
 			int x = this.bounds.getX();
 
+			// Wenn der Player nach Links will
 			if (keys.getLeftKey() == c) {
-
 				switch (direction) {
 				case RIGHT:
 				case LEFT:
 					if (y > 9 + this.bounds.getHeight()) {
 						this.bounds.setY(y - 4);
 					}
+					//Hitbox wird neu berechnet
 					hitbox.setBounds(
 							this.bounds.getX() - this.bounds.getWidth(),
 							this.bounds.getY() - this.bounds.getHeight(),
@@ -86,6 +88,7 @@ public class Player {
 					if (x > 9 + this.bounds.getHeight()) {
 						this.bounds.setX(x - 4);
 					}
+					//Hitbox wird neu berechnet
 					hitbox.setBounds(
 							this.bounds.getX() - this.bounds.getHeight(),
 							this.bounds.getY() - this.bounds.getWidth(),
@@ -94,6 +97,7 @@ public class Player {
 					break;
 
 				}
+				// Wenn der Player nach Rechts will
 			} else if (keys.getRightKey() == c) {
 
 				switch (direction) {
@@ -102,6 +106,7 @@ public class Player {
 					if (y < Display.getHeight() - (9 + this.bounds.getHeight())) {
 						this.bounds.setY(y + 4);
 					}
+					//Hitbox wird neu berechnet
 					hitbox.setBounds(
 							this.bounds.getX() - this.bounds.getWidth(),
 							this.bounds.getY() - this.bounds.getHeight(),
@@ -113,6 +118,7 @@ public class Player {
 					if (x < Display.getWidth() - (9 + this.bounds.getHeight())) {
 						this.bounds.setX(x + 4);
 					}
+					//Hitbox wird neu berechnet
 					hitbox.setBounds(
 							this.bounds.getX() - this.bounds.getHeight(),
 							this.bounds.getY() - this.bounds.getWidth(),
@@ -125,6 +131,7 @@ public class Player {
 	}
 
 	public void render() {
+		//Spieler noch im Spiel?
 		if (isInGame) {
 			int x, y, height, width;
 			x = this.bounds.getX();
@@ -132,6 +139,9 @@ public class Player {
 			height = this.bounds.getHeight();
 			width = this.bounds.getWidth();
 
+			//Fuer UNTEN und OBEN wird die Hoehe und Breite vertauscht
+			// -
+			// |
 			switch (this.direction) {
 			case LEFT:
 			case RIGHT:
@@ -155,7 +165,7 @@ public class Player {
 				break;
 			}
 		} else {
-			int x, y, height, width;
+			int height, width, x, y;
 			x = this.bounds.getX();
 			y = this.bounds.getY();
 			this.bounds.setHeight(800);
@@ -163,6 +173,7 @@ public class Player {
 			height = this.bounds.getHeight();
 			width = this.bounds.getWidth();
 
+			//Hier wird für jede Seite einzeln der gesammte Balken gerendert
 			switch (this.direction) {
 			case LEFT:
 				glBegin(GL_QUADS);

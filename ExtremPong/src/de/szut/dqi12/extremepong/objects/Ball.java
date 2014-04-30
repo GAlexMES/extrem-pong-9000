@@ -19,14 +19,34 @@ public class Ball {
 	protected int velocityx = 2;
 	protected int velocityy = 3;
 	protected int count = 0;
+	protected int lastPlayerHit = 0;
+	protected int vxOffset = 1;
+	protected int vyOffset = 1;
 
 	public Ball(int x, int y, int height, int width) {
 		bounds = new Bounds(x, y, height, width);
 		hitbox = new Rectangle();
-		hitbox.setBounds(x - width, y - height, width * 2, height * 2);
+		this.recalcHitbox();
 	}
 
 	public boolean intersects(Player p) {
+		this.recalcHitbox();
+		if(hitbox.intersects(p.hitbox)){
+			switch(p.direction){
+			case UP:
+				lastPlayerHit = 1;
+				break;
+			case RIGHT:
+				lastPlayerHit = 2;
+				break;
+			case DOWN:
+				lastPlayerHit = 3;
+				break;
+			case LEFT:
+				lastPlayerHit = 4;
+				break;
+			}
+		}
 		return hitbox.intersects(p.hitbox);
 	}
 
@@ -46,6 +66,12 @@ public class Ball {
 				bounds.getY() - bounds.getHeight());
 		glEnd();
 	}
+	
+	public void recalcHitbox(){
+		hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
+				this.bounds.getY() - this.bounds.getHeight(),
+				this.bounds.getWidth() * 2, this.bounds.getHeight() * 2);
+	}
 
 	public void setVelocityY(int v) {
 		this.velocityy = v;
@@ -64,15 +90,30 @@ public class Ball {
 	}
 
 	public void changeDir(Direction dir) {
-
 		switch (dir) {
 		case UP:
+			this.velocityx += (Math.random()*vxOffset);
+			this.velocityy += (Math.random()*vyOffset);
+			this.vy = true;
+			this.vx = !this.vx;
+			break;
 		case DOWN:
-			this.vy = !this.vy;
+			this.velocityx += (Math.random()*vxOffset);
+			this.velocityy += (Math.random()*vyOffset);
+			this.vy = false;
+			this.vx = !this.vx;
 			break;
 		case LEFT:
+			this.velocityx += (Math.random()*vxOffset);
+			this.velocityy += (Math.random()*vyOffset);
+			this.vx = true;
+			this.vy = !this.vy;
+			break;
 		case RIGHT:
-			this.vx = !this.vx;
+			this.velocityx += (Math.random()*vxOffset);
+			this.velocityy += (Math.random()*vyOffset);
+			this.vx = false;
+			this.vy = !this.vy;
 			break;
 		}
 	}
@@ -91,8 +132,6 @@ public class Ball {
 			bounds.setX(bounds.getX() - velocityx);
 			bounds.setY(bounds.getY() - velocityy);
 		}
-		hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
-				this.bounds.getY() - this.bounds.getHeight(),
-				this.bounds.getWidth() * 2, this.bounds.getHeight() * 2);
+		this.recalcHitbox();
 	}
 }
