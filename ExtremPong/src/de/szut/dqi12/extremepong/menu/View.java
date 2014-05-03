@@ -14,10 +14,7 @@ import javax.swing.JTextField;
 public class View extends JFrame {
 
 	private static final long serialVersionUID = 4021128003943864237L;
-	private JLabel[] namenLabels = new JLabel[4];
-	private JLabel[] tastenLabels = new JLabel[4];
 	private JLabel[] spielerLabels = new JLabel[4];
-	private JTextField[] spielerFelder = new JTextField[4];
 	private JTextField[] tastenFelder = new JTextField[8];
 	private JLabel[] Spielerpunkte = new JLabel[4];
 
@@ -44,10 +41,6 @@ public class View extends JFrame {
 			}
 			this.add(this.Spielerpunkte[i]);
 		}
-	}
-
-	public JTextField[] getSpielerFelder() {
-		return spielerFelder;
 	}
 
 	public JTextField[] getTastenFelder() {
@@ -93,37 +86,30 @@ public class View extends JFrame {
 		// es werden Arrays von Komponenten erzeugt und der View hinzugefuegt
 		// die Komponenten werden in in gleichen abstaenden angeordnet
 		for (int i = 0; i < 4; i++) {
-			this.namenLabels[i] = new JLabel();
-			this.tastenLabels[i] = new JLabel();
 			this.spielerLabels[i] = new JLabel();
-			this.spielerFelder[i] = new JTextField();
-			this.add(this.namenLabels[i]);
-			this.namenLabels[i].setText("Name:");
-			this.namenLabels[i].setBounds(100, 100 + i * 70, 100, 30);
-			this.add(this.tastenLabels[i]);
-			tastenLabels[i].setText("Tasten:");
-			tastenLabels[i].setBounds(270, 100 + i * 70, 100, 30);
 			this.add(spielerLabels[i]);
-			spielerLabels[i].setText("Spieler " + i + ":");
-			spielerLabels[i].setBounds(10, 100 + i * 70, 130, 30);
-			this.add(spielerFelder[i]);
-			spielerFelder[i].setBounds(150, 100 + i * 70, 100, 30);
+			spielerLabels[i].setBounds(10, 100 + i * 70, 200, 30);
 		}
+		spielerLabels[0].setText("(Tasten) Spieler Oberer Rand:");
+		spielerLabels[1].setText("(Tasten) Spieler Rechter Rand:");
+		spielerLabels[2].setText("(Tasten) Spieler Unterer Rand:");
+		spielerLabels[3].setText("(Tasten)  Spieler Linker Rand:");
 		// es werden Textfelder erzeugt und der View hinzugefuegt
 		for (int i = 0; i < 8; i++) {
 			this.tastenFelder[i] = new JTextField();
 
 			this.add(tastenFelder[i]);
 			if (i % 2 == 0) {
-				tastenFelder[i].setBounds(320, 100 + i / 2 * 70, 30, 30);
+				tastenFelder[i].setBounds(220, 100 + i / 2 * 70, 30, 30);
 			} else {
 
-				tastenFelder[i].setBounds(360, 100 + i / 2 * 70, 30, 30);
+				tastenFelder[i].setBounds(260, 100 + i / 2 * 70, 30, 30);
 			}
 		}
 		// Radiobuttons werden erstellt, einer Radiobuttongroup hinzugefuegt und
 		// der View hinzugefuegt
 		this.add(powerupsaus);
+		powerupsaus.setSelected(true);
 		powerupsaus.setText("nein");
 		powerupsaus.setBounds(250, 380, 60, 30);
 

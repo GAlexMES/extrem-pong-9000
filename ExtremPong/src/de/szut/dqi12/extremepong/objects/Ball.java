@@ -90,6 +90,7 @@ public class Ball {
 	}
 
 	public void changeDir(Direction dir) {
+		
 		switch (dir) {
 		case UP:
 			this.velocityx += (Math.random()*vxOffset);

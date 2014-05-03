@@ -52,13 +52,6 @@ public class Controller {
 
 		}
 
-		for (int i = 0; i < view.getSpielerFelder().length; i++) {
-			if (view.getSpielerFelder()[i].getText().equals("")
-					|| view.getSpielerFelder()[i].getText().equals(null)) {
-				return false;
-			}
-
-		}
 		if (!view.getPufalse().isSelected() && !view.getPutrue().isSelected()) {
 			return false;
 		}
@@ -69,7 +62,6 @@ public class Controller {
 		// Dem Memberarray von Spielern werden Werte uebegeben.
 		for (int i = 0; i < 4; i++) {
 			this.spieler[i] = new Spieler();
-			this.spieler[i].setName(view.getSpielerFelder()[i].getText());
 			this.spieler[i].setTaste1(view.getTastenFelder()[i * 2].getText()
 					.toCharArray()[0]);
 			this.spieler[i].setTaste2(view.getTastenFelder()[i * 2 + 1]
