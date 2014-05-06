@@ -57,7 +57,13 @@ public class Controller {
 			if (view.getTastenFelder()[i].getText().length() != 1) {
 				return false;
 			}
-
+			for(int b=0; b< view.getTastenFelder().length;b++){
+				if(b!=i){
+					if(view.getTastenFelder()[i].getText().equals(view.getTastenFelder()[b].getText())){
+						return false;
+					}
+				}
+			}
 		}
 
 		if (!view.getPufalse().isSelected() && !view.getPutrue().isSelected()) {

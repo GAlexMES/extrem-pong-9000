@@ -90,7 +90,7 @@ public class Ball {
 		glVertex2i(bounds.getX() + bounds.getWidth(), bounds.getY()
 				- bounds.getHeight());
 		glEnd();
-		GL11.glColor3f(0f, 0f, 0f);
+		GL11.glColor3f(1f, 1f, 1f);
 	}
 
 	public void recalcHitbox() {

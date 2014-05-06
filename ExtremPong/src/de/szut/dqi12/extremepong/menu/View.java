@@ -139,6 +139,7 @@ public class View extends JFrame {
 		this.add(abschicken);
 		abschicken.setText("Abschicken");
 		abschicken.setBounds(330, 400, 120, 30);
+		
 		// Dem Button wird einem ActionListener hinzugefuegt.
 		abschicken.addActionListener(new Listener());
 		
