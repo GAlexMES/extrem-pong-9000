@@ -18,6 +18,7 @@ import de.szut.dqi12.extremepong.menu.Controller;
 import de.szut.dqi12.extremepong.menu.View;
 import de.szut.dqi12.extremepong.objects.Ball;
 import de.szut.dqi12.extremepong.objects.Player;
+import de.szut.dqi12.extremepong.objects.Powerup;
 import de.szut.dqi12.extremepong.util.Direction;
 
 /**
@@ -38,11 +39,18 @@ public class PongMainRender {
 	public ArrayList<Ball> balls = new ArrayList<Ball>();
 	public ArrayList<Player> players = new ArrayList<Player>();
 	public ArrayList<Player> playersOut = new ArrayList<Player>();
+	public ArrayList<Powerup> powerups = new ArrayList<Powerup>();
+	public ArrayList<Powerup> activePowerups = new ArrayList<Powerup>();
+	private ArrayList<Powerup> removeablePowerups = new ArrayList<Powerup>();
 
 	// Singleton (nur eine instance)
 	private static PongMainRender instance = null;
 
 	private boolean nextGame = false;
+	private int ticks = 0;
+	private int newBall = 7000;
+	private int slomotion = 7000;
+	private int position;
 
 	// Main
 	public static void main(String[] args) {
@@ -56,7 +64,10 @@ public class PongMainRender {
 		return instance;
 	}
 
-	public void renderShit() {
+	public void renderPong() {
+		powerups.clear();
+		activePowerups.clear();		
+		ticks = 0;
 		// Display Erstellung
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
@@ -109,31 +120,129 @@ public class PongMainRender {
 
 			// Ball Render
 			for (Ball b : balls) {
+				removeablePowerups.clear();
 				b.render();
 				b.move();
 
 				for (Player p : players) {
-					if (b.intersects(p)) {
+					if (b.intersectsPlayer(p)) {
 						b.changeDir(p.direction);
+						if(p.isInGame()){
+							ticks=ticks+1;
+							if(ticks%2==0){								
+								powerups.add(new Powerup());
+								}
+							
+							for(Powerup power : activePowerups){
+								if(!power.alreadyAlive(ticks)){
+									removeablePowerups.add(power);
+								}
+							}
+							
+						}
 					}
 				}
+						
+				for(int i=0; i<powerups.size();i++){					
+					if(b.intersectsPowerup(powerups.get(i))){
+						boolean activated = false;
+						while (!activated){			
+						
+						int randomInt = powerups.get(i).randInt(0, 2);
+						switch(randomInt){
+							case 0: powerups.get(i).biggerBall();
+									activated = true;
+									break;	
+							case 1: newBall = activePowerups.size();
+									activated = true;
+									break;
+							case 2: switch(powerups.get(i).randInt(0,3)){
+									case 0: slomotion = position = activePowerups.size();
+											activated = true;
+											break;
+									default: activated = false;
+											break;
+									}
+									break;								
+							}
+						}
+						
+						powerups.get(i).setStartTick(ticks);
+						activePowerups.add(powerups.get(i));
+						break;
+						
+					}
+				}
+				
+				for(Powerup power : activePowerups){
+					int position=0;
+					boolean remove = false;
+					for(int i=0; i<powerups.size();i++){
+						if(power.equals(powerups.get(i))){
+							position=i;
+							remove = true;
+						}
+					}
+					if(remove){
+						remove=false;
+						powerups.remove(position);
+					}
+				}
+				
 
 				// Wenn der Ball eine Kante trifft, wird der jewailige Player
 				// aus dem Game gekickt.
 				if (b.getBounds().getX() + b.getBounds().getWidth() > WIDTH) {
+					if(DEBUG) System.out.println("[+] Right Player Out!");
 					b.changeDir(Direction.RIGHT);
 					players.get(1).setInGame(false);
 				} else if (b.getBounds().getY() - b.getBounds().getHeight() < 0) {
+					if(DEBUG) System.out.println("[+] Upper Player Out!");
 					b.changeDir(Direction.UP);
 					players.get(0).setInGame(false);
 				} else if (b.getBounds().getX() - b.getBounds().getWidth() < 0) {
+					if(DEBUG) System.out.println("[+] Left Player Out!");
 					b.changeDir(Direction.LEFT);
 					players.get(3).setInGame(false);
 				} else if (b.getBounds().getY() + b.getBounds().getHeight() > HEIGHT) {
+					if(DEBUG) System.out.println("[+] Bottom Player Out!");
 					b.changeDir(Direction.DOWN);
 					players.get(2).setInGame(false);
 				}
 			}
+			
+			for(Powerup power : removeablePowerups){
+				power.destroy();
+				int position = 0;
+				boolean remove = false;
+				for(int i=0; i<activePowerups.size();i++){
+					if(power.equals(activePowerups.get(i))){
+						position=i;
+						remove = true;
+					}
+				}
+				if(remove){
+					remove = false;
+					activePowerups.remove(position);
+					if(DEBUG)System.out.println("[!] Removed powerup out of active powerups!");
+				}
+			}
+			
+			if(newBall<=activePowerups.size()){
+				activePowerups.get(newBall).newBall();
+				newBall=7000;
+			}
+			
+			if(slomotion<=activePowerups.size()){
+				activePowerups.get(slomotion).slowmotion();
+				slomotion = 7000;
+			}
+			
+			for(Powerup p : powerups){
+				p.render();
+			}
+			
+			
 
 			// Player Render
 			for (Player p : players) {

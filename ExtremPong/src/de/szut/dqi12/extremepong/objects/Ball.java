@@ -38,8 +38,13 @@ public class Ball {
 		hitbox = new Rectangle();
 		this.recalcHitbox();
 	}
+	
+	public boolean intersectsPowerup(Powerup p) {
+		this.recalcHitbox();		
+		return  hitbox.intersects(p.hitbox);
+	}
 
-	public boolean intersects(Player p) {
+	public boolean intersectsPlayer(Player p) {
 		this.recalcHitbox();
 
 		int tempLastPlayerHit = this.lastPlayerHit;
@@ -74,6 +79,10 @@ public class Ball {
 
 	public Bounds getBounds() {
 		return this.bounds;
+	}
+	
+	public void setBounds(Bounds b){
+		this.bounds=b;
 	}
 
 	public void render() {
@@ -156,4 +165,6 @@ public class Ball {
 		}
 		this.recalcHitbox();
 	}
+
+
 }

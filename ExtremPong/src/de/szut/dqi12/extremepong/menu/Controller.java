@@ -41,7 +41,8 @@ public class Controller {
 			view.setVisible(false);
 
 			// Pong (lwjgl)
-			PongMainRender.getInstance().renderShit();
+			if(PongMainRender.DEBUG) System.out.println("[+] Spiel gestartet!");
+			PongMainRender.getInstance().renderPong();
 		} else {
 			this.fehler = new Fehlermeldung("Falsche Eingabe!!!", new Bounds(Screen.WIDTH/2, Screen.HEIGHT/2, 400, 400));
 			this.fehler.move();

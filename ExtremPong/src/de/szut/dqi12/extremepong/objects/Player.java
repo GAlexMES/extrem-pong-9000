@@ -29,7 +29,7 @@ public class Player {
 		this.isInGame = bool;
 	}
 
-	public boolean isInGame(boolean bool) {
+	public boolean isInGame() {
 		return this.isInGame;
 	}
 
