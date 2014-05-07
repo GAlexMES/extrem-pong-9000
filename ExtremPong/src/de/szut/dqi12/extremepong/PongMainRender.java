@@ -159,7 +159,7 @@ public class PongMainRender {
 									break;
 							case 2: switch(powerups.get(i).randInt(0,3)){
 									case 0: slomotion = activePowerups.size();
-											powerups.get(randomInt).setTypeOfPowerup(randomInt);
+											powerups.get(i).setTypeOfPowerup(randomInt);
 											activated = true;
 											break;
 									default: activated = false;
