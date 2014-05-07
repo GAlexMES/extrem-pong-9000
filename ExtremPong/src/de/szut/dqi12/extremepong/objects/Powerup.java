@@ -65,9 +65,40 @@ public class Powerup {
 		glEnd();
 
 		GL11.glColor3f(1f, 1f, 1f);
-		
-
-
+	}
+	
+	public void biggerPlayers(){
+		for(Player p: PongMainRender.getInstance().players){
+			if(p.isInGame){
+				p.setBounds(new Bounds(p.getBounds().getX(),p.getBounds().getY(),p.getBounds().getHeight()*2,p.getBounds().getWidth()));
+			}
+		}		
+	}
+	
+	public void smallerPlayers(){
+		for(Player p: PongMainRender.getInstance().players){
+			if(p.isInGame){
+				p.setBounds(new Bounds(p.getBounds().getX(),p.getBounds().getY(),p.getBounds().getHeight()/2,p.getBounds().getWidth()));
+			}
+		}		
+	}
+	
+	public void setTypeOfPowerup (int type){
+		this.typeOfPowerup = type;
+	}
+	
+	public void beamBall(){
+		for (Ball b : PongMainRender.getInstance().balls){
+			for(int i = 0; i<3;i++){
+			b.setBounds(new Bounds(randInt(100,500),randInt(100,500),b.getBounds().getWidth(),b.getBounds().getHeight()));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		}
 	}
 	
 	public void slowmotion(){
@@ -123,6 +154,12 @@ public class Powerup {
 				removeBall();
 				break;
 		case 2: break;
+		case 3: break;
+		case 4: break;
+		case 5: smallerPlayers();
+				break;
+		case 6: biggerPlayers();
+				break;
 		}
 	}
 	

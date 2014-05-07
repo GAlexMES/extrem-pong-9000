@@ -24,6 +24,10 @@ public class Player {
 	protected Bounds bounds;
 	public Rectangle hitbox;
 	public boolean isInGame = true;
+	
+	public Direction getDirection(){
+		return this.direction;
+	}
 
 	public void setInGame(boolean bool) {
 		this.isInGame = bool;
@@ -258,5 +262,13 @@ public class Player {
 
 	public Keys getKeys() {
 		return this.keys;
+	}
+	
+	public void setBounds(Bounds b){
+		this.bounds = b;
+	}
+	
+	public Bounds getBounds(){
+		return this.bounds;
 	}
 }

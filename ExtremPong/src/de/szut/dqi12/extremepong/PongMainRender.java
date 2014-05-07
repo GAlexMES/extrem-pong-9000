@@ -50,8 +50,8 @@ public class PongMainRender {
 	private int ticks = 0;
 	private int newBall = 7000;
 	private int slomotion = 7000;
-	private int position;
-
+	private boolean clearPowerups = false;
+	private int beamBall = 7000;
 	// Main
 	public static void main(String[] args) {
 		View.getInstance();
@@ -131,6 +131,7 @@ public class PongMainRender {
 							ticks=ticks+1;
 							if(ticks%2==0){								
 								powerups.add(new Powerup());
+								if(DEBUG)System.out.println("[+] new poweruph");
 								}
 							
 							for(Powerup power : activePowerups){
@@ -148,7 +149,7 @@ public class PongMainRender {
 						boolean activated = false;
 						while (!activated){			
 						
-						int randomInt = powerups.get(i).randInt(0, 2);
+						int randomInt = powerups.get(i).randInt(0,6);
 						switch(randomInt){
 							case 0: powerups.get(i).biggerBall();
 									activated = true;
@@ -157,20 +158,44 @@ public class PongMainRender {
 									activated = true;
 									break;
 							case 2: switch(powerups.get(i).randInt(0,3)){
-									case 0: slomotion = position = activePowerups.size();
+									case 0: slomotion = activePowerups.size();
+											powerups.get(randomInt).setTypeOfPowerup(randomInt);
 											activated = true;
 											break;
 									default: activated = false;
 											break;
 									}
-									break;								
-							}
+									break;
+									
+							case 3: switch(powerups.get(i).randInt(0,1)){
+									case 0: powerups.get(i).setTypeOfPowerup(randomInt);
+											clearPowerups = true;
+											activated = true;
+											break;
+									default: activated = false;				
+									}
+									break;
+							case 4:
+									powerups.get(i).setTypeOfPowerup(randomInt);
+									activated = true;
+									beamBall= activePowerups.size();;
+									break;
+							case 5: activated = true;
+									powerups.get(i).setTypeOfPowerup(randomInt);
+									powerups.get(i).biggerPlayers();
+									break;
+							case 6: activated = true;
+									powerups.get(i).setTypeOfPowerup(randomInt);
+									powerups.get(i).smallerPlayers();
+									break;
+						}
+							
+							
 						}
 						
 						powerups.get(i).setStartTick(ticks);
 						activePowerups.add(powerups.get(i));
-						break;
-						
+						break;						
 					}
 				}
 				
@@ -209,6 +234,19 @@ public class PongMainRender {
 					b.changeDir(Direction.DOWN);
 					players.get(2).setInGame(false);
 				}
+			}
+			
+			if(beamBall<=activePowerups.size()){
+				if(DEBUG)System.out.println("[!] Beam Ball");
+				activePowerups.get(beamBall).beamBall();
+				beamBall=7000;				
+			}
+			
+			if(clearPowerups){
+				clearPowerups = false;
+				powerups.clear();
+				activePowerups.clear();
+				removeablePowerups.clear();				
 			}
 			
 			for(Powerup power : removeablePowerups){
