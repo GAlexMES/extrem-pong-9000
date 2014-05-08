@@ -14,6 +14,7 @@ import org.lwjgl.util.Rectangle;
 import de.szut.dqi12.extremepong.PongMainRender;
 import de.szut.dqi12.extremepong.menu.View;
 import de.szut.dqi12.extremepong.util.Bounds;
+import de.szut.dqi12.extremepong.util.Direction;
 
 public class Powerup {
 
@@ -65,6 +66,20 @@ public class Powerup {
 		glEnd();
 
 		GL11.glColor3f(1f, 1f, 1f);
+	}
+	
+	public void returnBall(Ball b,Direction dir){
+		switch(dir){
+		case LEFT: b.changeDir(Direction.RIGHT);
+					break;
+		case RIGHT: b.changeDir(Direction.LEFT);
+					break;
+		case UP:	b.changeDir(Direction.DOWN);
+					break;
+		case DOWN:	b.changeDir(Direction.UP);
+					break;
+		}
+		
 	}
 	
 	public void biggerPlayers(){
@@ -160,6 +175,7 @@ public class Powerup {
 				break;
 		case 6: biggerPlayers();
 				break;
+		case 7: break;
 		}
 	}
 	

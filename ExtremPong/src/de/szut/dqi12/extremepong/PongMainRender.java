@@ -52,6 +52,7 @@ public class PongMainRender {
 	private int slomotion = 7000;
 	private boolean clearPowerups = false;
 	private int beamBall = 7000;
+	private Direction lastPlayer = null;
 	// Main
 	public static void main(String[] args) {
 		View.getInstance();
@@ -126,6 +127,7 @@ public class PongMainRender {
 
 				for (Player p : players) {
 					if (b.intersectsPlayer(p)) {
+						lastPlayer = p.getDirection();
 						b.changeDir(p.direction);
 						if(p.isInGame()){
 							ticks=ticks+1;
@@ -149,7 +151,7 @@ public class PongMainRender {
 						boolean activated = false;
 						while (!activated){			
 						
-						int randomInt = powerups.get(i).randInt(0,6);
+						int randomInt = powerups.get(i).randInt(7,7);
 						switch(randomInt){
 							case 0: powerups.get(i).biggerBall();
 									activated = true;
@@ -187,6 +189,10 @@ public class PongMainRender {
 							case 6: activated = true;
 									powerups.get(i).setTypeOfPowerup(randomInt);
 									powerups.get(i).smallerPlayers();
+									break;
+							case 7: activated = true;
+									powerups.get(i).setTypeOfPowerup(randomInt);
+									 powerups.get(i).returnBall(b,lastPlayer);
 									break;
 						}
 							
