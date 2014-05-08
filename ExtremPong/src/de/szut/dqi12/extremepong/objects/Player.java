@@ -36,6 +36,10 @@ public class Player {
 	public boolean isInGame() {
 		return this.isInGame;
 	}
+	
+	public void toggleControll(){
+		this.keys = new Keys(this.keys.getRightKey(),this.keys.getLeftKey());		
+	}
 
 	public Player(char keyleft, char keyright, Direction dir) {
 		this.direction = dir;

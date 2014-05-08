@@ -151,7 +151,7 @@ public class PongMainRender {
 						boolean activated = false;
 						while (!activated){			
 						
-						int randomInt = powerups.get(i).randInt(7,7);
+						int randomInt = powerups.get(i).randInt(0,8);
 						switch(randomInt){
 							case 0: powerups.get(i).biggerBall();
 									activated = true;
@@ -192,7 +192,11 @@ public class PongMainRender {
 									break;
 							case 7: activated = true;
 									powerups.get(i).setTypeOfPowerup(randomInt);
-									 powerups.get(i).returnBall(b,lastPlayer);
+									powerups.get(i).returnBall(b,lastPlayer);
+									break;
+							case 8: activated = true;
+									powerups.get(i).setTypeOfPowerup(randomInt);
+									powerups.get(i).switchControlling();
 									break;
 						}
 							

@@ -82,6 +82,12 @@ public class Powerup {
 		
 	}
 	
+	public void switchControlling(){
+		for(Player p : PongMainRender.getInstance().players){
+			p.toggleControll();
+		}
+	}
+	
 	public void biggerPlayers(){
 		for(Player p: PongMainRender.getInstance().players){
 			if(p.isInGame){
@@ -176,6 +182,7 @@ public class Powerup {
 		case 6: biggerPlayers();
 				break;
 		case 7: break;
+		case 8: break;
 		}
 	}
 	
