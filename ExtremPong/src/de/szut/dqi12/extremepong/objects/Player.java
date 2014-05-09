@@ -12,11 +12,6 @@ import de.szut.dqi12.extremepong.util.Bounds;
 import de.szut.dqi12.extremepong.util.Direction;
 import de.szut.dqi12.extremepong.util.Keys;
 
-/**
- * 
- * @author dqi12schlechtweg
- * 
- */
 public class Player {
 
 	public Keys keys;
@@ -24,8 +19,8 @@ public class Player {
 	protected Bounds bounds;
 	public Rectangle hitbox;
 	public boolean isInGame = true;
-	
-	public Direction getDirection(){
+
+	public Direction getDirection() {
 		return this.direction;
 	}
 
@@ -36,9 +31,10 @@ public class Player {
 	public boolean isInGame() {
 		return this.isInGame;
 	}
-	
-	public void toggleControll(){
-		this.keys = new Keys(this.keys.getRightKey(),this.keys.getLeftKey());		
+
+	public void toggleControll() {
+		// Hier werden die Tasten vertauscht.
+		this.keys = new Keys(this.keys.getRightKey(), this.keys.getLeftKey());
 	}
 
 	public Player(char keyleft, char keyright, Direction dir) {
@@ -46,32 +42,35 @@ public class Player {
 		this.keys = new Keys(keyleft, keyright);
 		hitbox = new Rectangle();
 
+		// Je nach Position des Spielers, müssen Größe und Position angepasst
+		// werden
+		// Somit auch die Hitbox
 		switch (this.direction) {
 		case LEFT:
 			bounds = new Bounds(10, Display.getHeight() / 2);
 			hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
-					this.bounds.getY() - this.bounds.getHeight(), this.bounds
-							.getWidth() * 2, this.bounds.getHeight() * 2);
+					this.bounds.getY() - this.bounds.getHeight(),
+					this.bounds.getWidth() * 2, this.bounds.getHeight() * 2);
 			break;
 		case RIGHT:
 			bounds = new Bounds(Display.getWidth() - 10,
 					Display.getHeight() / 2);
 			hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
-					this.bounds.getY() - this.bounds.getHeight(), this.bounds
-							.getWidth() * 2, this.bounds.getHeight() * 2);
+					this.bounds.getY() - this.bounds.getHeight(),
+					this.bounds.getWidth() * 2, this.bounds.getHeight() * 2);
 			break;
 		case UP:
 			bounds = new Bounds(Display.getWidth() / 2, 10);
 			hitbox.setBounds(this.bounds.getX() - this.bounds.getHeight(),
-					this.bounds.getY() - this.bounds.getWidth(), this.bounds
-							.getHeight() * 2, this.bounds.getWidth() * 2);
+					this.bounds.getY() - this.bounds.getWidth(),
+					this.bounds.getHeight() * 2, this.bounds.getWidth() * 2);
 			break;
 		case DOWN:
 			bounds = new Bounds(Display.getWidth() / 2,
 					Display.getHeight() - 10);
 			hitbox.setBounds(this.bounds.getX() - this.bounds.getHeight(),
-					this.bounds.getY() - this.bounds.getWidth(), this.bounds
-							.getHeight() * 2, this.bounds.getWidth() * 2);
+					this.bounds.getY() - this.bounds.getWidth(),
+					this.bounds.getHeight() * 2, this.bounds.getWidth() * 2);
 			break;
 		}
 
@@ -80,7 +79,7 @@ public class Player {
 	}
 
 	public void move(char c) {
-		// Checks if the Player is still inGame
+		// Wird nur gerendet und bewegt, wenn der Spieler noch im Spiel ist
 		if (isInGame) {
 			int y = this.bounds.getY();
 			int x = this.bounds.getX();
@@ -94,9 +93,9 @@ public class Player {
 						this.bounds.setY(y - 4);
 					}
 					// Hitbox wird neu berechnet
-					hitbox.setBounds(this.bounds.getX()
-							- this.bounds.getWidth(), this.bounds.getY()
-							- this.bounds.getHeight(),
+					hitbox.setBounds(
+							this.bounds.getX() - this.bounds.getWidth(),
+							this.bounds.getY() - this.bounds.getHeight(),
 							this.bounds.getWidth() * 2,
 							this.bounds.getHeight() * 2);
 					break;
@@ -106,9 +105,9 @@ public class Player {
 						this.bounds.setX(x - 4);
 					}
 					// Hitbox wird neu berechnet
-					hitbox.setBounds(this.bounds.getX()
-							- this.bounds.getHeight(), this.bounds.getY()
-							- this.bounds.getWidth(),
+					hitbox.setBounds(
+							this.bounds.getX() - this.bounds.getHeight(),
+							this.bounds.getY() - this.bounds.getWidth(),
 							this.bounds.getHeight() * 2,
 							this.bounds.getWidth() * 2);
 					break;
@@ -124,9 +123,9 @@ public class Player {
 						this.bounds.setY(y + 4);
 					}
 					// Hitbox wird neu berechnet
-					hitbox.setBounds(this.bounds.getX()
-							- this.bounds.getWidth(), this.bounds.getY()
-							- this.bounds.getHeight(),
+					hitbox.setBounds(
+							this.bounds.getX() - this.bounds.getWidth(),
+							this.bounds.getY() - this.bounds.getHeight(),
 							this.bounds.getWidth() * 2,
 							this.bounds.getHeight() * 2);
 					break;
@@ -136,9 +135,9 @@ public class Player {
 						this.bounds.setX(x + 4);
 					}
 					// Hitbox wird neu berechnet
-					hitbox.setBounds(this.bounds.getX()
-							- this.bounds.getHeight(), this.bounds.getY()
-							- this.bounds.getWidth(),
+					hitbox.setBounds(
+							this.bounds.getX() - this.bounds.getHeight(),
+							this.bounds.getY() - this.bounds.getWidth(),
 							this.bounds.getHeight() * 2,
 							this.bounds.getWidth() * 2);
 					break;
@@ -153,34 +152,24 @@ public class Player {
 		if (isInGame) {
 			switch (this.direction) {
 			case LEFT:
-				hitbox
-						.setBounds(this.bounds.getX() - this.bounds.getWidth(),
-								this.bounds.getY() - this.bounds.getHeight(),
-								this.bounds.getWidth() * 2, this.bounds
-										.getHeight() * 2);
+				hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
+						this.bounds.getY() - this.bounds.getHeight(),
+						this.bounds.getWidth() * 2, this.bounds.getHeight() * 2);
 				break;
 			case RIGHT:
-				hitbox
-						.setBounds(this.bounds.getX() - this.bounds.getWidth(),
-								this.bounds.getY() - this.bounds.getHeight(),
-								this.bounds.getWidth() * 2, this.bounds
-										.getHeight() * 2);
+				hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
+						this.bounds.getY() - this.bounds.getHeight(),
+						this.bounds.getWidth() * 2, this.bounds.getHeight() * 2);
 				break;
 			case UP:
-				hitbox
-						.setBounds(
-								this.bounds.getX() - this.bounds.getHeight(),
-								this.bounds.getY() - this.bounds.getWidth(),
-								this.bounds.getHeight() * 2, this.bounds
-										.getWidth() * 2);
+				hitbox.setBounds(this.bounds.getX() - this.bounds.getHeight(),
+						this.bounds.getY() - this.bounds.getWidth(),
+						this.bounds.getHeight() * 2, this.bounds.getWidth() * 2);
 				break;
 			case DOWN:
-				hitbox
-						.setBounds(
-								this.bounds.getX() - this.bounds.getHeight(),
-								this.bounds.getY() - this.bounds.getWidth(),
-								this.bounds.getHeight() * 2, this.bounds
-										.getWidth() * 2);
+				hitbox.setBounds(this.bounds.getX() - this.bounds.getHeight(),
+						this.bounds.getY() - this.bounds.getWidth(),
+						this.bounds.getHeight() * 2, this.bounds.getWidth() * 2);
 				break;
 			}
 
@@ -267,12 +256,12 @@ public class Player {
 	public Keys getKeys() {
 		return this.keys;
 	}
-	
-	public void setBounds(Bounds b){
+
+	public void setBounds(Bounds b) {
 		this.bounds = b;
 	}
-	
-	public Bounds getBounds(){
+
+	public Bounds getBounds() {
 		return this.bounds;
 	}
 }

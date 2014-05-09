@@ -13,9 +13,9 @@ public class Fehlermeldung extends JFrame {
 	
 	public Fehlermeldung(String text, Bounds bounds) {
 		this.bounds = bounds;
-		// Die Position und groesse des angezeigten Texts wird festgelegt.
+		// Die Position und groesse des angezeigten Texts wird festgelegt
 		this.fehler.setBounds(bounds.getWidth()/2-75, bounds.getHeight()/2-200, 150, 400);
-		// Die Position und der Ramen der Oberflaeche wird festgelegt.
+		// Die Position und der Ramen der Oberflaeche wird festgelegt
 		this.setBounds(bounds.getX()-bounds.getWidth()/2, bounds.getY()-bounds.getHeight()/2, this.bounds.getWidth(), this.bounds.getHeight());
 		// Der Oberflaeche wird kein Layout uebergeben.
 		this.setLayout(null);

@@ -51,6 +51,7 @@ public class Ball {
 
 		if (nextHit) {
 			if (hitbox.intersects(p.hitbox)) {
+				// lastPlayerHit gibt an welcher Spieler als letztes getroffen wurde
 				switch (p.direction) {
 				case UP:
 					lastPlayerHit = 1;
@@ -69,11 +70,18 @@ public class Ball {
 			nextHit = false;
 		}
 
+		// Es werden immer 5 frames gewartet oder wenn ein anderer
+		// Spieler als der letzte getroffen wird, bevor die Richtung
+		// gewechselt wird.
 		if (lastHits >= 5 || tempLastPlayerHit != lastPlayerHit) {
+			// nexHit zeigt ob der nächte "hit" auch die Richtung ändert
+			// oder ob der Ball sich noch im Spieler befindet
 			nextHit = true;
 		}
 
 		lastHits++;
+		// Wenn die Beiden sich berühren oder übereinander liegen
+		// wird true zurückgegeben
 		return hitbox.intersects(p.hitbox);
 	}
 
@@ -86,9 +94,13 @@ public class Ball {
 	}
 
 	public void render() {
+		// Wenn Powerups an sind hat der Ball eine graue Farbe
 		if(View.getInstance().getPutrue().isSelected()){
 			GL11.glColor3f(0.4f,0.5f,0.5f);
 		}
+		
+		// Hier wird gesagt ich möchte ein Quadrat zeichnen und dann
+		// alle Punkte die zu diesem benötigt werden glEnd() "beendet" das zeichnen
 		glBegin(GL_QUADS);
 		glVertex2i(bounds.getX() - bounds.getWidth(), bounds.getY()
 				- bounds.getHeight());
@@ -99,10 +111,13 @@ public class Ball {
 		glVertex2i(bounds.getX() + bounds.getWidth(), bounds.getY()
 				- bounds.getHeight());
 		glEnd();
+		
+		// Die Farbe des "Zeichenstiftes" wird zurückgesetzt
 		GL11.glColor3f(1f, 1f, 1f);
 	}
 
 	public void recalcHitbox() {
+		// Diese Funktion setzt die Hitbox neu auf die aktuelle Position
 		hitbox.setBounds(this.bounds.getX() - this.bounds.getWidth(),
 				this.bounds.getY() - this.bounds.getHeight(), this.bounds
 						.getWidth() * 2, this.bounds.getHeight() * 2);
@@ -128,6 +143,7 @@ public class Ball {
 		if (PongMainRender.DEBUG)
 			System.out.println("[!] Ball changed direction.");
 
+		//Je nach Spieler ändert sich dementsprechend die Richtung
 		switch (dir) {
 		case UP:
 			this.vy = true;
@@ -143,6 +159,8 @@ public class Ball {
 			break;
 		}
 
+		// Wenn die Geschwindigkeit des Balls noch kleiner als 5 Pixel ist und Powerups an sind
+		// Dann wird der Ball schneller gemacht
 		if (velocityx <= 5 && velocityy <= 5 && View.getInstance().getPutrue().isSelected()) {
 			this.velocityx += (Math.random() * vxOffset);
 			this.velocityy += (Math.random() * vyOffset);
@@ -150,6 +168,7 @@ public class Ball {
 	}
 
 	public void move() {
+		// Der Ball bewegt sich in die jeweilige Richtung
 		if (vx && vy) {
 			bounds.setX(bounds.getX() + velocityx);
 			bounds.setY(bounds.getY() + velocityy);

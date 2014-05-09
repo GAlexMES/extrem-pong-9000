@@ -6,7 +6,6 @@ import javax.swing.text.PlainDocument;
 
 /**
  * @author http://www.rgagnon.com/javadetails/java-0198.html
- *
  */
 public class JTextFieldLimit extends PlainDocument {
 

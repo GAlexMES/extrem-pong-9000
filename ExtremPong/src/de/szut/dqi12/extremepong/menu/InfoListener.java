@@ -14,6 +14,7 @@ public class InfoListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Mit HTML angepasstest Label für unsere Infobox
 		Fehlermeldung fehler = new Fehlermeldung("<html><bold><center>" +
 				"Extreme Pong 9000<br>" +
 				"No info available<br>" +

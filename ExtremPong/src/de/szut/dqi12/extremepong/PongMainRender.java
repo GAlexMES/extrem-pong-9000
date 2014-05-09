@@ -21,11 +21,6 @@ import de.szut.dqi12.extremepong.objects.Player;
 import de.szut.dqi12.extremepong.objects.Powerup;
 import de.szut.dqi12.extremepong.util.Direction;
 
-/**
- * 
- * @author dqi12schlechtweg
- * 
- */
 public class PongMainRender {
 	// Konstanten
 	public static final String TITLE = "Extreme Pong";
@@ -53,12 +48,13 @@ public class PongMainRender {
 	private boolean clearPowerups = false;
 	private int beamBall = 7000;
 	private Direction lastPlayer = null;
+	
 	// Main
 	public static void main(String[] args) {
 		View.getInstance();
 	}
 
-	//Singleton Patterm
+	//Singleton Pattern
 	public static PongMainRender getInstance() {
 		if (instance == null) {
 			instance = new PongMainRender();

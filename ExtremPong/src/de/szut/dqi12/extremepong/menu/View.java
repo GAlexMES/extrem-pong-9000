@@ -16,6 +16,7 @@ import de.szut.dqi12.extremepong.util.JTextFieldLimit;
 public class View extends JFrame {
 
 	private static final long serialVersionUID = 4021128003943864237L;
+	
 	private JLabel[] spielerLabels = new JLabel[4];
 	private JTextField[] tastenFelder = new JTextField[8];
 	private JLabel[] Spielerpunkte = new JLabel[4];
@@ -30,6 +31,8 @@ public class View extends JFrame {
 	private JRadioButton powerupsein = new JRadioButton();
 	private JRadioButton powerupsaus = new JRadioButton();
 	private int[] punkte = new int[4];
+	
+	private static View instance = null;
 
 	public void setPunkte(int winner) {
 		for (int i = 0; i < 4; i++) {
@@ -57,7 +60,7 @@ public class View extends JFrame {
 		return powerupsaus;
 	}
 
-	private static View instance = null;
+	
 
 	// Singleton
 	public static View getInstance() {
@@ -68,11 +71,13 @@ public class View extends JFrame {
 	}
 
 	public void selbstZerstoerungsKnopf() {
+		// Beendet das Programm ohne weitere Meldung
+		// bedeutet eigentlich absturz (-1), aber immerhin beendet es sich
 		System.exit(-1);
 	}
 
+	// GUI initalisierung
 	private View() {
-
 		this.setBounds(
 				Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 250,
 				Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 250,
@@ -98,6 +103,8 @@ public class View extends JFrame {
 		// es werden Textfelder erzeugt und der View hinzugefuegt
 		for (int i = 0; i < 8; i++) {
 			this.tastenFelder[i] = new JTextField();
+			// Hier wird gesagt als eingabe methode soll die insertString von JTextFieldLimit benutzt werden
+			// Die die Buchstaben auf 1 maximal begrenzt und immer groß schreibt.
 			this.tastenFelder[i].setDocument(new JTextFieldLimit(1, true));
 			this.add(tastenFelder[i]);
 			if (i % 2 == 0) {
@@ -107,15 +114,15 @@ public class View extends JFrame {
 			}
 		}
 
-		// StandardBelegung der Tasten
-		tastenFelder[0].setText("A");
+		// Standardbelegung der Tasten
+		tastenFelder[0].setText("W");
 		tastenFelder[1].setText("S");
-		tastenFelder[2].setText("D");
-		tastenFelder[3].setText("F");
-		tastenFelder[4].setText("G");
-		tastenFelder[5].setText("H");
-		tastenFelder[6].setText("J");
-		tastenFelder[7].setText("K");
+		tastenFelder[2].setText("C");
+		tastenFelder[3].setText("V");
+		tastenFelder[4].setText("N");
+		tastenFelder[5].setText("M");
+		tastenFelder[6].setText("L");
+		tastenFelder[7].setText("P");
 
 		winnerlabel.setBounds(this.getBounds().width / 2 - 30, 65, 200, 30);
 		this.add(winnerlabel);
@@ -123,11 +130,11 @@ public class View extends JFrame {
 		// Radiobuttons werden erstellt, einer Radiobuttongroup hinzugefuegt und
 		// der View hinzugefuegt
 		this.add(powerupsaus);
-		powerupsaus.setSelected(true);
 		powerupsaus.setText("nein");
 		powerupsaus.setBounds(280, 360, 60, 30);
 
 		this.add(powerupsein);
+		powerupsein.setSelected(true);
 		powerupsein.setText("ja");
 		powerupsein.setBounds(230, 360, 50, 30);
 
@@ -163,6 +170,7 @@ public class View extends JFrame {
 	}
 
 	public void setWinnerlabel(String str) {
+		// Setzt das Gewinner Label auf den jeweiligen Gewinner
 		winnerlabel.setText("Gewinner: " + str);
 	}
 }

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class Listener implements ActionListener {
 
 	public Listener() {
-		// Ein Object von View wird uebernommen und in view geschrieben.
+		// Controller initialisierung
 		Controller.getInstance();
 	}
 
@@ -14,7 +14,6 @@ public class Listener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Das Spiel wird gestartet.
 		Controller.getInstance().startGame(View.getInstance());
-
 	}
 
 }

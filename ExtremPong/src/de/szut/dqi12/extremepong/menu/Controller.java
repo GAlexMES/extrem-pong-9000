@@ -44,6 +44,7 @@ public class Controller {
 			if(PongMainRender.DEBUG) System.out.println("[+] Spiel gestartet!");
 			PongMainRender.getInstance().renderPong();
 		} else {
+			// Falls der/die User was falsch eingeben haben, wird eine Fehlermeldung ausgeben
 			this.fehler = new Fehlermeldung("Falsche Eingabe!!!", new Bounds(Screen.WIDTH/2, Screen.HEIGHT/2, 400, 400));
 			this.fehler.move();
 		}
