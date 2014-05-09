@@ -169,7 +169,7 @@ public class PongMainRender {
 						//Solange keine Eigenschaft festgelegt wurde läuft die while weiter
 						while (!activated){			
 							// zufälliger Wert wird generiert
-							int randomInt = powerups.get(i).randInt(0, 8);
+							int randomInt = powerups.get(i).randInt(1, 1);
 							//Anhand des zufall Wertes wird eine Eigenschaft ermittelt
 							switch (randomInt) {
 							case 0:
