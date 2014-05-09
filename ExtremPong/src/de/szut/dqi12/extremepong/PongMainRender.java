@@ -58,16 +58,22 @@ public class PongMainRender {
 		View.getInstance();
 	}
 
+	//Singleton Patterm
 	public static PongMainRender getInstance() {
 		if (instance == null) {
 			instance = new PongMainRender();
 		}
 		return instance;
 	}
+	
+	//MainRenderer welche beim Start eines neuen SPiels ausgeführt wird
 
 	public void renderPong() {
+		// Powerup listen werden gecleart, damit keine Powerups aus 
+		// vorherigen Spielen aktiv sind
 		powerups.clear();
-		activePowerups.clear();		
+		activePowerups.clear();	
+		// Anzahl der Ticks (Schlägerberührungen) wird auf 0 gesetzt
 		ticks = 0;
 		// Display Erstellung
 		try {
@@ -92,9 +98,10 @@ public class PongMainRender {
 		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 
-		// Der Ball der von Anfang an da ist
+		// Startball wird definiert
 		balls.add(new Ball(WIDTH / 2, HEIGHT / 2, 4, 4));
-
+		
+		// Vier Spieler werden mit ihren entsprechenden Spieltasten definiert
 		for (int i = 0; i <= 3; i++) {
 			char keyleft = Controller.getInstance().getSpieler()[i].getTaste1();
 			char keyright = Controller.getInstance().getSpieler()[i]
@@ -121,21 +128,28 @@ public class PongMainRender {
 
 			// Ball Render
 			for (Ball b : balls) {
+				//Abgelaufene Powerups werden entfernt
 				removeablePowerups.clear();
+				//Ball wird gerendert und bewegt
 				b.render();
 				b.move();
-
+				
+				//Berührung zwischen Ball und Spieler wird überprüft
 				for (Player p : players) {
 					if (b.intersectsPlayer(p)) {
+						//Bei Berührung wird die Richtung des Balles geändert
 						lastPlayer = p.getDirection();
 						b.changeDir(p.direction);
+						//Wenn der Spieler noch im Spiel ist wird die Anzahl der Ticks erhöht
 						if(p.isInGame()){
 							ticks=ticks+1;
+							// Bei jeder zweiten Berührung wird ein Powerup erstellt
 							if(ticks%2==0){								
 								powerups.add(new Powerup());
 								if(DEBUG)System.out.println("[+] new poweruph");
 								}
-							
+							// Falls der Lebenszyklus einer Powerups abgelaufen ist
+							// wird es in die Liste removeablePowerups hinzugefügt
 							for(Powerup power : activePowerups){
 								if(!power.alreadyAlive(ticks)){
 									removeablePowerups.add(power);
@@ -145,71 +159,128 @@ public class PongMainRender {
 						}
 					}
 				}
-						
+				// Überprüfung zwischen Ball und Spieler abgeschlossen
+				
+				// Überprüfung zwischen Ball und Powerup
 				for(int i=0; i<powerups.size();i++){					
 					if(b.intersectsPowerup(powerups.get(i))){
+						//Bei Überschneidung wird per Zufallszahl ermittelt
+						// Welche Eigenschaft das Powerup haben soll
+						
+						// Boolean für Verschachtelte switch/case
 						boolean activated = false;
+						
+						//Solange keine Eigenschaft festgelegt wurde läuft die while weiter
 						while (!activated){			
-						
-						int randomInt = powerups.get(i).randInt(0,8);
-						switch(randomInt){
-							case 0: powerups.get(i).biggerBall();
+							// zufälliger Wert wird generiert
+							int randomInt = powerups.get(i).randInt(0, 8);
+							//Anhand des zufall Wertes wird eine Eigenschaft ermittelt
+							switch (randomInt) {
+							case 0:
+								//Funktion zum Vergrößern des Balles wird aufgerufen
+								powerups.get(i).biggerBall();
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								activated = true;
+								break;
+							case 1:
+								// In newBall wird die Position des aktuellen Powerups gespeichert
+								// Da durch das Bälle Array iteriert wird kann an dieser Stelle kein Ball
+								// hinzugefügt werden. Dies geschieht nach der Iteration.
+								newBall = activePowerups.size();
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								activated = true;
+								break;
+							case 2:
+								 // Da diese Eigenschaft weniger oft auftreten soll
+								 // wird ein zweiter zufalls Wert ermittelt
+								
+								switch (powerups.get(i).randInt(0, 3)) {
+								case 0:
+									// siehe Kommentar zu case 1.
+									// Der Ball wird extrem verlangsamt und beschleunigt sich 
+									// erst mit der Zeit wieder
+									slomotion = activePowerups.size();
+									powerups.get(i).setTypeOfPowerup(randomInt);
 									activated = true;
-									break;	
-							case 1: newBall = activePowerups.size();
+									break;
+								default:
+									activated = false;
+									break;
+								}
+								break;
+
+							case 3:
+								 // Da diese Eigenschaft weniger oft auftreten soll
+								 // wird ein zweiter zufalls Wert ermittelt
+								switch (powerups.get(i).randInt(0, 1)) {
+								case 0:
+									// Bei eintreten werden alle Powerups gelöscht, die bereits
+									// gezeichnet aber noch nicht getroffen wurden
+									// Dies kann jedoch auch nicht hier geschehen, da dann das Array,
+									// durch welches aktuell iteriert wird bearbeitet werden müsste
+									// Durch das setzen des clearPowerups Booleans wird dies später erledigt
+									powerups.get(i).setTypeOfPowerup(randomInt);
+									clearPowerups = true;
 									activated = true;
 									break;
-							case 2: switch(powerups.get(i).randInt(0,3)){
-									case 0: slomotion = activePowerups.size();
-											powerups.get(i).setTypeOfPowerup(randomInt);
-											activated = true;
-											break;
-									default: activated = false;
-											break;
-									}
-									break;
-									
-							case 3: switch(powerups.get(i).randInt(0,1)){
-									case 0: powerups.get(i).setTypeOfPowerup(randomInt);
-											clearPowerups = true;
-											activated = true;
-											break;
-									default: activated = false;				
-									}
-									break;
+								default:
+									activated = false;
+								}
+								break;
 							case 4:
-									powerups.get(i).setTypeOfPowerup(randomInt);
-									activated = true;
-									beamBall= activePowerups.size();;
-									break;
-							case 5: activated = true;
-									powerups.get(i).setTypeOfPowerup(randomInt);
-									powerups.get(i).biggerPlayers();
-									break;
-							case 6: activated = true;
-									powerups.get(i).setTypeOfPowerup(randomInt);
-									powerups.get(i).smallerPlayers();
-									break;
-							case 7: activated = true;
-									powerups.get(i).setTypeOfPowerup(randomInt);
-									powerups.get(i).returnBall(b,lastPlayer);
-									break;
-							case 8: activated = true;
-									powerups.get(i).setTypeOfPowerup(randomInt);
-									powerups.get(i).switchControlling();
-									break;
-						}
-							
-							
+								// Siehe Kommentar Case 1
+								// Ball wird an eine andere Stelle "gebeamt" fliegt jedoch in die
+								// selbe Richtung weiter
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								activated = true;
+								beamBall = activePowerups.size();
+								;
+								break;
+							case 5:
+								// Funktion, welche die Schläger der Spieler vergrößert
+								// wird aufgerufen
+								activated = true;
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								powerups.get(i).biggerPlayers();
+								break;
+							case 6:
+								//Funktion, welche die Schläger der Spieler verkleinert,
+								// wird aufgerufen
+								activated = true;
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								powerups.get(i).smallerPlayers();
+								break;
+							case 7:
+								//Funktion, welche den Ball vom Powerup wie von einem
+								// Schläger abprallen lässt, wird aufgerufen
+								activated = true;
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								powerups.get(i).returnBall(b, lastPlayer);
+								break;
+							case 8:
+								//Funktion, welche die Tasten der Spieler vertauscht, wird aufgerufen
+								activated = true;
+								powerups.get(i).setTypeOfPowerup(randomInt);
+								powerups.get(i).switchControlling();
+								break;
+							}
+
 						}
 						
+						// Bei dem Powerup wird der StartTick gesetzt, welcher für den Lebenszyklus benötigt wird
 						powerups.get(i).setStartTick(ticks);
+						//Powerup wird zu den activePowerups hinzu gefügt
 						activePowerups.add(powerups.get(i));
 						break;						
 					}
 				}
 				
+				// Es wird durch die Liste der activePowerups iteriert
 				for(Powerup power : activePowerups){
+					// Es wird überprüft ob sich ein Powerup in activePowerup
+					// auch in powerups befindet
+					// Falls dies so ist wird es aus powerups entfernt um nicht
+					//mehr gerendert zu werden
 					int position=0;
 					boolean remove = false;
 					for(int i=0; i<powerups.size();i++){
@@ -246,12 +317,19 @@ public class PongMainRender {
 				}
 			}
 			
+			//Wenn der Wert der beamBall Variable kleiner ist als die Größe der activePowerups,
+			// wurde er geändert und diese Funktion muss aufgerufen werden
 			if(beamBall<=activePowerups.size()){
 				if(DEBUG)System.out.println("[!] Beam Ball");
+				//Funktion die den Powerup an eine beliebige Stelle beamt
 				activePowerups.get(beamBall).beamBall();
+				// beamBall wird auf 7000 gesetzt, damit die Funktion nicht dauerhaft aufgerufen wird
 				beamBall=7000;				
 			}
 			
+			// Wenn clearPowerups true ist wird es wieder auf false gesetzt
+			// um einen Mehrfachaufruf zu vermeiden
+			// Alle Array, die etwas mit Powerups zu tun haben, werden gecleart
 			if(clearPowerups){
 				clearPowerups = false;
 				powerups.clear();
@@ -259,10 +337,16 @@ public class PongMainRender {
 				removeablePowerups.clear();				
 			}
 			
+			// Wenn der Lebenszyklus eines Powerups abgelaufen ist gehört es zu den removablePowerups
+			// Durch diese wird hier itteriert und die destroy() Funktion aufgerufen
+			// Diese wird nicht bei jedem Powerup benötigt, die Überprüfung erfolgt in der Funktion selber
+			
 			for(Powerup power : removeablePowerups){
 				power.destroy();
 				int position = 0;
 				boolean remove = false;
+				
+				// Hinzu kommt, dass an dieser Stelle das Powerup auch aus den activePowrups entfernt wird
 				for(int i=0; i<activePowerups.size();i++){
 					if(power.equals(activePowerups.get(i))){
 						position=i;
@@ -276,15 +360,23 @@ public class PongMainRender {
 				}
 			}
 			
+			//Wenn der Wert der newBall Variable kleiner ist als die Größe der activePowerups,
+			// wurde er geändert und diese Funktion muss aufgerufen werden
 			if(newBall<=activePowerups.size()){
+				//Die Entsprechende Funktion innerhalb der Powerup Klasse wird aufgerufen
 				activePowerups.get(newBall).newBall();
+				// newBall wird auf 7000 gesetzt, damit die Funktion nicht dauerhaft aufgerufen wird
 				newBall=7000;
 			}
 			
+			//Siehe überliegende If Abfrage
 			if(slomotion<=activePowerups.size()){
 				activePowerups.get(slomotion).slowmotion();
 				slomotion = 7000;
 			}
+			
+			//Alle Powerups werden gerendert
+			// Dadurch werden berührte nicht mehr angezeigt und neue können hinzugefügt werden
 			
 			for(Powerup p : powerups){
 				p.render();
@@ -303,6 +395,8 @@ public class PongMainRender {
 								.println("[-] RuntimeException - Player can't be rendered!");
 				}
 
+				// Nur wenn der Spieler noch im Spiel ist wird eine Tasteneingabe verarbeitet
+				// um Resourcen zu sparen
 				if (p.isInGame) {
 					int keyleft = Keyboard.getKeyIndex(Character.toString(p
 							.getKeys().getLeftKey()));
@@ -322,6 +416,8 @@ public class PongMainRender {
 									.println("[-] IllegalStateException - Keyboard broken!");
 					}
 				}
+				
+				// Wenn der Spieler rausgeflogen ist wird er der playersOut Liste hinzugefügt
 
 				if (!p.isInGame) {
 					if (!playersOut.contains(p)) {
@@ -329,10 +425,14 @@ public class PongMainRender {
 					}
 				}
 			}
+			
+			// Wenn die playersOut Liste mehr als zwei Spieler beinhaltet steht der Gewinner fest
 
 			if (playersOut.size() > 2) {
 				View.getInstance().setVisible(true);
 				nextGame = true;
+				//Das Menü wird neu generiert, dieses mal jedoch mit einem Gewinner Label
+				// Welches den Gewinner der vergangenen Runde anzeigt
 				for (Player p : players) {
 					if (!playersOut.contains(p)) {
 
@@ -358,8 +458,12 @@ public class PongMainRender {
 				Display.destroy();
 				break;
 			}
+			
+			//Nachdem alles neu gerendert wurde und alle Funktionen und Powerups ausgeführt worden sind
+			// Wird das OpenGl Fenster geupdated
 			try {
 				Display.update();
+				//Anzahl der Updates
 				Display.sync(60);
 				glClear(GL_COLOR_BUFFER_BIT);
 			} catch (IllegalStateException e) {
@@ -368,6 +472,7 @@ public class PongMainRender {
 							.println("[-] IllegalStateException - no display!");
 			}
 		}
+		
 		if (!nextGame) {
 			Display.destroy();
 			View.getInstance().selbstZerstoerungsKnopf();
@@ -379,6 +484,7 @@ public class PongMainRender {
 		}
 	}
 
+	//Funktion welchen einen neuen Ball zur aktuellen Liste hinzu fügt.
 	public void newBall(int size) {
 		if (balls.size() <= 5) {
 			balls.add(new Ball(WIDTH / 2, HEIGHT / 2, size, size));
